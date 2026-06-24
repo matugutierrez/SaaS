@@ -33,7 +33,9 @@ exports.getOne = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { title, description, board, columnName, assignee, priority, dueDate, tags, project } = req.body;
+    let { title, description, board, columnName, assignee, priority, dueDate, tags, project } = req.body;
+    if (!assignee) assignee = undefined;
+    if (!dueDate) dueDate = undefined;
     const lastTask = await Task.findOne({ board, columnName }).sort({ position: -1 });
     const position = lastTask ? lastTask.position + 1 : 0;
     const task = await Task.create({
@@ -70,9 +72,13 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
+    const body = { ...req.body };
+    if (!body.assignee) body.assignee = null;
+    if (!body.dueDate) body.dueDate = null;
+    body.updatedAt = new Date();
     const task = await Task.findOneAndUpdate(
       { _id: req.params.id, organization: req.organization._id },
-      { ...req.body, updatedAt: new Date() },
+      body,
       { new: true }
     ).populate('assignee', 'name email').populate('reporter', 'name email');
     if (!task) return res.status(404).json({ error: 'Task not found' });

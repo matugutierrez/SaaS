@@ -1,23 +1,28 @@
 import { Droppable } from '@hello-pangea/dnd';
 import TaskCard from './TaskCard';
 
-export default function BoardColumn({ column, tasks, index }) {
+export default function BoardColumn({ column, tasks }) {
   return (
-    <div className="bg-gray-100 rounded-xl flex-shrink-0 w-72 flex flex-col max-h-full">
-      <div className="px-3 py-3 flex items-center gap-2">
-        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: column.color }}></div>
+    <div className="bg-gray-100/80 rounded-2xl flex-shrink-0 w-72 flex flex-col max-h-full shadow-sm border border-gray-200/50">
+      <div className="px-4 py-3.5 flex items-center gap-2.5 border-b border-gray-200/50">
+        <div className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ backgroundColor: column.color }}></div>
         <h3 className="font-semibold text-sm text-gray-700">{column.name}</h3>
-        <span className="text-xs text-gray-400 ml-auto">{tasks.length}</span>
+        <span className="text-xs text-gray-400 ml-auto bg-white/80 px-2 py-0.5 rounded-full font-medium shadow-sm">{tasks.length}</span>
       </div>
       <Droppable droppableId={column.name} type="task">
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`flex-1 px-2 pb-2 overflow-y-auto min-h-[100px] transition ${
-              snapshot.isDraggingOver ? 'bg-primary-50' : ''
+            className={`flex-1 px-2.5 py-2.5 overflow-y-auto min-h-[120px] transition-all duration-200 rounded-b-2xl ${
+              snapshot.isDraggingOver ? 'bg-primary-50/50' : ''
             }`}
           >
+            {tasks.length === 0 && !snapshot.isDraggingOver && (
+              <div className="flex items-center justify-center h-24">
+                <p className="text-xs text-gray-400">Drop tasks here</p>
+              </div>
+            )}
             {tasks.map((task, i) => (
               <TaskCard key={task._id} task={task} index={i} />
             ))}

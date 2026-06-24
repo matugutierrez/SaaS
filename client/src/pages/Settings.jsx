@@ -48,86 +48,125 @@ export default function Settings() {
     }
   };
 
-  const roleOptions = ['admin_plus', 'admin', 'member'];
+  const copyCode = () => {
+    navigator.clipboard.writeText(inviteCode);
+    alert('Copied!');
+  };
+
+  const roleBadge = {
+    owner: { bg: 'bg-yellow-100 text-yellow-700', label: 'Owner' },
+    admin_plus: { bg: 'bg-purple-100 text-purple-700', label: 'Admin+' },
+    admin: { bg: 'bg-blue-100 text-blue-700', label: 'Admin' },
+    member: { bg: 'bg-gray-100 text-gray-600', label: 'Member' },
+  };
+
+  const roleGradient = {
+    owner: 'from-yellow-400 to-yellow-500',
+    admin_plus: 'from-purple-400 to-purple-500',
+    admin: 'from-blue-400 to-blue-500',
+    member: 'from-gray-400 to-gray-500',
+  };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8">
+    <div className="max-w-3xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-800 mb-1">Settings</h1>
-        <p className="text-sm text-gray-500">{user?.organization?.name}</p>
+        <p className="text-sm text-gray-400">{user?.organization?.name}</p>
       </div>
 
-      <div className="bg-white rounded-xl border p-6">
-        <h2 className="font-semibold mb-4">Invite Code</h2>
+      <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center text-white text-lg">🔗</div>
+          <div>
+            <h2 className="font-semibold text-gray-800">Invite Code</h2>
+            <p className="text-xs text-gray-400">Share this code with people you want to invite</p>
+          </div>
+        </div>
         <div className="flex items-center gap-3">
-          <code className="text-lg font-mono bg-gray-100 px-4 py-2 rounded-lg">{inviteCode}</code>
-          <button onClick={() => { navigator.clipboard.writeText(inviteCode); }} className="text-sm text-primary-600 hover:underline">
+          <code className="text-lg font-mono bg-gray-50 border border-gray-200 px-5 py-3 rounded-xl flex-1 text-center tracking-widest text-primary-700 font-bold">{inviteCode}</code>
+          <button onClick={copyCode}
+            className="px-5 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 transition-all active:scale-95">
             Copy
           </button>
         </div>
-        <p className="text-xs text-gray-400 mt-2">Share this code with people you want to invite. They enter it during registration.</p>
       </div>
 
-      <div className="bg-white rounded-xl border">
-        <div className="px-6 py-4 border-b flex items-center justify-between">
-          <h2 className="font-semibold">Members ({members.length})</h2>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-50 flex items-center justify-between">
+          <div>
+            <h2 className="font-semibold text-gray-800">Members ({members.length})</h2>
+            <p className="text-xs text-gray-400">Manage your team</p>
+          </div>
           {isOwner && (
-            <button onClick={() => setShowTransfer(true)} className="text-sm text-orange-600 hover:underline">Transfer ownership</button>
+            <button onClick={() => setShowTransfer(true)}
+              className="text-xs font-medium text-amber-600 hover:bg-amber-50 px-3 py-1.5 rounded-lg transition">
+              Transfer ownership
+            </button>
           )}
         </div>
-        <div className="divide-y">
-          {members.map((m) => (
-            <div key={m._id} className="px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-medium">
-                  {m.name[0]?.toUpperCase()}
+        <div className="divide-y divide-gray-50">
+          {members.map((m) => {
+            const badge = roleBadge[m.role] || roleBadge.member;
+            return (
+              <div key={m._id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50/50 transition">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 bg-gradient-to-br ${roleGradient[m.role] || roleGradient.member} rounded-xl flex items-center justify-center text-sm font-bold text-white shadow-sm`}>
+                    {m.name[0]?.toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-800">{m.name}</p>
+                    <p className="text-xs text-gray-400">{m.email}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium">{m.name}</p>
-                  <p className="text-xs text-gray-400">{m.email}</p>
+                <div className="flex items-center gap-2">
+                  {m.role === 'owner' ? (
+                    <span className={`text-xs px-2.5 py-1 rounded-lg font-medium ${badge.bg}`}>Owner</span>
+                  ) : canManageRoles ? (
+                    <select value={m.role} onChange={(e) => updateRole(m._id, e.target.value)}
+                      className="text-xs px-3 py-1.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition bg-white font-medium">
+                      <option value="admin_plus">Admin+</option>
+                      <option value="admin">Admin</option>
+                      <option value="member">Member</option>
+                    </select>
+                  ) : (
+                    <span className={`text-xs px-2.5 py-1 rounded-lg font-medium ${badge.bg}`}>{badge.label}</span>
+                  )}
+                  {canManageRoles && m.role !== 'owner' && (
+                    <button onClick={() => removeMember(m._id)}
+                      className="text-xs text-red-500 hover:bg-red-50 px-2 py-1 rounded-lg transition font-medium ml-1">
+                      Remove
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                {m.role === 'owner' ? (
-                  <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded font-medium">Owner</span>
-                ) : canManageRoles ? (
-                  <select
-                    value={m.role}
-                    onChange={(e) => updateRole(m._id, e.target.value)}
-                    className="text-xs px-2 py-1 border rounded focus:ring-2 focus:ring-primary-500 outline-none"
-                  >
-                    {roleOptions.map((r) => <option key={r} value={r}>{r === 'admin_plus' ? 'Admin+' : r === 'admin' ? 'Admin' : 'Member'}</option>)}
-                  </select>
-                ) : (
-                  <span className="text-xs text-gray-500 capitalize">{m.role}</span>
-                )}
-                {canManageRoles && m.role !== 'owner' && (
-                  <button onClick={() => removeMember(m._id)} className="text-xs text-red-500 hover:underline ml-2">Remove</button>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       <Modal open={showTransfer} onClose={() => setShowTransfer(false)} title="Transfer Ownership">
-        <p className="text-sm text-gray-600 mb-4">You will become Admin+. The selected member will become the new Owner.</p>
+        <div className="px-6 py-4 bg-amber-50 border border-amber-200 rounded-xl mb-4">
+          <p className="text-sm text-amber-800">
+            You will become <strong>Admin+</strong>. The selected member will become the new <strong>Owner</strong>.
+          </p>
+        </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">New Owner</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">New Owner</label>
             <select value={transferTarget} onChange={(e) => setTransferTarget(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none">
-              <option value="">Select a member</option>
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition bg-white">
+              <option value="">Select a member...</option>
               {members.filter((m) => m.role !== 'owner').map((m) => (
                 <option key={m._id} value={m._id}>{m.name} ({m.email})</option>
               ))}
             </select>
           </div>
-          <div className="flex gap-2 justify-end">
-            <button onClick={() => setShowTransfer(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
+          <div className="flex gap-2 justify-end pt-2">
+            <button onClick={() => setShowTransfer(false)}
+              className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition">Cancel</button>
             <button onClick={transferOwnership} disabled={!transferTarget}
-              className="px-4 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 disabled:opacity-50">
-              Transfer
+              className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-medium rounded-xl hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-200 transition-all active:scale-95 disabled:opacity-50">
+              Transfer Ownership
             </button>
           </div>
         </div>
