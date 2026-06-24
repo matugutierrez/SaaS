@@ -39,15 +39,15 @@ export default function TiptapEditor({ content, onChange }) {
     ];
 
     return (
-      <div className="flex flex-wrap gap-1 p-2 border-b bg-gray-50 rounded-t-lg">
+      <div className="flex flex-wrap gap-1 p-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-t-lg">
         {items.map((item, i) => {
-          if (item.type === 'divider') return <div key={i} className="w-px h-6 bg-gray-300 mx-1" />;
+          if (item.type === 'divider') return <div key={i} className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />;
           return (
             <button
               key={i}
               onClick={item.action}
               title={item.label}
-              className={`px-2 py-1 text-xs font-medium rounded ${item.active ? 'bg-primary-100 text-primary-700' : 'text-gray-600 hover:bg-gray-200'}`}
+              className={`px-2 py-1 text-xs font-medium rounded ${item.active ? 'bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
             >
               {item.icon}
             </button>
@@ -58,9 +58,9 @@ export default function TiptapEditor({ content, onChange }) {
   };
 
   return (
-    <div className="border border-gray-300 rounded-lg">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
       <Toolbar />
-      <EditorContent editor={editor} className="prose prose-sm max-w-none" />
+      <EditorContent editor={editor} className="prose prose-sm max-w-none dark:text-gray-300 dark:prose-invert" />
     </div>
   );
 }

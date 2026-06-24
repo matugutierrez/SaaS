@@ -17,7 +17,7 @@ export default function MessageInput({ onSend }) {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Type a message..."
-        className="flex-1 px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+        className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition"
       />
       <button
         type="submit"

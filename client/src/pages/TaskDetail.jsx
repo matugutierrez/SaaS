@@ -4,10 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
 const priorityMeta = {
-  low: { color: 'bg-gray-100 text-gray-600', label: 'Low' },
-  medium: { color: 'bg-blue-100 text-blue-600', label: 'Medium' },
-  high: { color: 'bg-orange-100 text-orange-600', label: 'High' },
-  urgent: { color: 'bg-red-100 text-red-600', label: 'Urgent' },
+  low: { color: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400', label: 'Low' },
+  medium: { color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400', label: 'Medium' },
+  high: { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400', label: 'High' },
+  urgent: { color: 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400', label: 'Urgent' },
 };
 
 export default function TaskDetail() {
@@ -91,29 +91,29 @@ export default function TaskDetail() {
 
   if (loading) return (
     <div className="max-w-4xl mx-auto space-y-4">
-      <div className="h-12 bg-gray-200 rounded-2xl animate-pulse" />
-      <div className="h-96 bg-gray-200 rounded-2xl animate-pulse" />
+      <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
+      <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
     </div>
   );
   if (!task) return <p className="text-center text-gray-400 py-12">Task not found</p>;
 
   return (
     <div className="max-w-4xl mx-auto space-y-4">
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-50 flex items-center justify-between">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm dark:shadow-gray-900/30 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-50 dark:border-gray-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded-lg transition">&larr;</button>
+            <button onClick={() => navigate(-1)} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">&larr;</button>
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${(priorityMeta[task.priority] || priorityMeta.medium).color}`}>
               {(priorityMeta[task.priority] || priorityMeta.medium).label}
             </span>
-            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{task.columnName}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">{task.columnName}</span>
           </div>
           {canEdit && (
             <div className="flex gap-1">
               <button onClick={() => setEditing(!editing)}
-                className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition">{editing ? 'Cancel' : 'Edit'}</button>
+                className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 rounded-lg transition">{editing ? 'Cancel' : 'Edit'}</button>
               <button onClick={deleteTask}
-                className="px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg transition">Delete</button>
+                className="px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition">Delete</button>
             </div>
           )}
         </div>
@@ -121,38 +121,38 @@ export default function TaskDetail() {
         {editing ? (
           <form onSubmit={updateTask} className="p-6 space-y-4">
             <input value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} required
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-lg font-semibold focus:ring-2 focus:ring-primary-500 outline-none transition" />
+              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-lg font-semibold focus:ring-2 focus:ring-primary-500 outline-none transition" />
             <textarea value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} rows={4}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none" />
+              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none" />
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Priority</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Priority</label>
                 <select value={editForm.priority} onChange={(e) => setEditForm({ ...editForm, priority: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
+                  className="w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
                   <option value="low">Low</option><option value="medium">Medium</option>
                   <option value="high">High</option><option value="urgent">Urgent</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Due Date</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Due Date</label>
                 <input type="date" value={editForm.dueDate} onChange={(e) => setEditForm({ ...editForm, dueDate: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
+                  className="w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Assignee</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Assignee</label>
                 <input value={editForm.assignee} onChange={(e) => setEditForm({ ...editForm, assignee: e.target.value })} placeholder="User ID"
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
+                  className="w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
               </div>
             </div>
             <button type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 transition-all active:scale-95">
+              className="px-6 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95">
               Save Changes
             </button>
           </form>
         ) : (
           <div className="p-6">
-            <h1 className="text-xl font-bold text-gray-800 mb-3">{task.title}</h1>
-            <p className="text-sm text-gray-600 whitespace-pre-wrap mb-6">{task.description || 'No description'}</p>
+            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-3">{task.title}</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap mb-6">{task.description || 'No description'}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: 'Status', value: task.columnName },
@@ -160,23 +160,23 @@ export default function TaskDetail() {
                 { label: 'Reporter', value: task.reporter?.name },
                 { label: 'Due', value: task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date', highlight: task.dueDate && new Date(task.dueDate) < new Date() ? 'text-red-500' : '' },
               ].map((f, i) => (
-                <div key={i} className="bg-gray-50/80 rounded-xl p-3">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">{f.label}</p>
-                  <p className={`text-sm font-medium text-gray-700 ${f.highlight || ''}`}>{f.value}</p>
+                <div key={i} className="bg-gray-50/80 dark:bg-gray-800/50 rounded-xl p-3">
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">{f.label}</p>
+                  <p className={`text-sm font-medium text-gray-700 dark:text-gray-300 ${f.highlight || ''}`}>{f.value}</p>
                 </div>
               ))}
             </div>
             {task.tags?.length > 0 && (
               <div className="flex gap-1.5 mt-4 flex-wrap">
-                {task.tags.map((t, i) => <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-lg">{t}</span>)}
+                {task.tags.map((t, i) => <span key={i} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2.5 py-1 rounded-lg">{t}</span>)}
               </div>
             )}
           </div>
         )}
 
-        <div className="px-6 py-4 border-t border-gray-50 bg-gray-50/50">
+        <div className="px-6 py-4 border-t border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-gray-700">Attachments ({task.attachments?.length || 0})</h3>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Attachments ({task.attachments?.length || 0})</h3>
             {canEdit && (
               <label className="text-xs text-primary-600 hover:text-primary-700 font-medium cursor-pointer hover:underline">
                 + Add file
@@ -185,10 +185,10 @@ export default function TaskDetail() {
             )}
           </div>
           <div className="flex gap-2 flex-wrap">
-            {task.attachments?.length === 0 && <p className="text-xs text-gray-400">No attachments</p>}
+            {task.attachments?.length === 0 && <p className="text-xs text-gray-400 dark:text-gray-500">No attachments</p>}
             {task.attachments?.map((file) => (
-              <a key={file._id} href={`/api/files/${file._id}`} target="_blank"
-                className="flex items-center gap-1.5 text-xs bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition shadow-sm">
+              <a key={file._id} href={`/api/files/${file._id}`} target="_blank" rel="noreferrer"
+                className="flex items-center gap-1.5 text-xs bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition shadow-sm text-gray-700 dark:text-gray-300">
                 <span>📎</span> {file.originalName}
               </a>
             ))}
@@ -196,11 +196,11 @@ export default function TaskDetail() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="flex border-b border-gray-50">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm dark:shadow-gray-900/30 overflow-hidden">
+        <div className="flex border-b border-gray-50 dark:border-gray-800">
           {['details', 'comments'].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3.5 text-sm font-medium transition border-b-2 ${activeTab === tab ? 'text-primary-600 border-primary-500' : 'text-gray-400 border-transparent hover:text-gray-600'}`}>
+              className={`px-6 py-3.5 text-sm font-medium transition border-b-2 ${activeTab === tab ? 'text-primary-600 border-primary-500' : 'text-gray-400 dark:text-gray-500 border-transparent hover:text-gray-600 dark:hover:text-gray-300'}`}>
               {tab === 'details' ? 'Details' : `Comments (${comments.length})`}
             </button>
           ))}
@@ -210,25 +210,25 @@ export default function TaskDetail() {
           <div className="p-6">
             <form onSubmit={addComment} className="mb-6">
               <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." rows={2}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none mb-3" />
+                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none mb-3" />
               <button type="submit" disabled={!newComment.trim()}
-                className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 transition-all active:scale-95 disabled:opacity-50">
+                className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95 disabled:opacity-50">
                 Comment
               </button>
             </form>
             <div className="space-y-4">
-              {comments.length === 0 && <p className="text-center text-gray-400 text-sm py-8">No comments yet</p>}
+              {comments.length === 0 && <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-8">No comments yet</p>}
               {comments.map((c) => (
-                <div key={c._id} className="flex gap-3 p-4 bg-gray-50/50 rounded-xl">
+                <div key={c._id} className="flex gap-3 p-4 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl">
                   <div className="w-9 h-9 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center text-sm font-medium text-white flex-shrink-0 shadow-sm">
                     {c.author?.name?.[0]?.toUpperCase() || '?'}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-sm font-medium text-gray-700">{c.author?.name}</span>
-                      <span className="text-[11px] text-gray-400">{new Date(c.createdAt).toLocaleDateString()} · {new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{c.author?.name}</span>
+                      <span className="text-[11px] text-gray-400 dark:text-gray-500">{new Date(c.createdAt).toLocaleDateString()} · {new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap">{c.body}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">{c.body}</p>
                   </div>
                 </div>
               ))}
@@ -238,8 +238,8 @@ export default function TaskDetail() {
 
         {activeTab === 'details' && (
           <div className="p-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
-            <p className="text-sm text-gray-400">Created {new Date(task.createdAt).toLocaleString()} · Updated {new Date(task.updatedAt).toLocaleString()}</p>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Activity</h3>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Created {new Date(task.createdAt).toLocaleString()} · Updated {new Date(task.updatedAt).toLocaleString()}</p>
           </div>
         )}
       </div>

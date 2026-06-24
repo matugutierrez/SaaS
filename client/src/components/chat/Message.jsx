@@ -14,16 +14,16 @@ export default function Message({ message }) {
         )}
         <div>
           {!isOwn && (
-            <p className="text-xs text-gray-500 mb-1 ml-1 font-medium">{message.sender?.name}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 ml-1 font-medium">{message.sender?.name}</p>
           )}
           <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
             isOwn
-              ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-md shadow-primary-200'
-              : 'bg-white text-gray-800 border border-gray-100 shadow-sm'
+              ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-md shadow-primary-200 dark:shadow-primary-900/30'
+              : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-100 dark:border-gray-700 shadow-sm'
           }`}>
             <p className="whitespace-pre-wrap break-words">{message.content}</p>
           </div>
-          <p className={`text-[10px] text-gray-400 mt-1 ${isOwn ? 'text-right mr-1' : 'ml-1'}`}>
+          <p className={`text-[10px] text-gray-400 dark:text-gray-500 mt-1 ${isOwn ? 'text-right mr-1' : 'ml-1'}`}>
             {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>

@@ -106,7 +106,7 @@ export default function Board() {
 
   if (loading) return (
     <div className="flex gap-4 h-full overflow-x-auto pb-4">
-      {[1,2,3].map(i => <div key={i} className="w-72 bg-gray-100 rounded-2xl p-3 animate-pulse flex-shrink-0"><div className="h-8 bg-gray-200 rounded mb-3" />{[1,2,3].map(j => <div key={j} className="h-28 bg-gray-200 rounded-xl mb-2" />)}</div>)}
+      {[1,2,3].map(i => <div key={i} className="w-72 bg-gray-100 dark:bg-gray-900 rounded-2xl p-3 animate-pulse flex-shrink-0"><div className="h-8 bg-gray-200 dark:bg-gray-800 rounded mb-3" />{[1,2,3].map(j => <div key={j} className="h-28 bg-gray-200 dark:bg-gray-800 rounded-xl mb-2" />)}</div>)}
     </div>
   );
 
@@ -114,18 +114,18 @@ export default function Board() {
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-800">{board?.name}</h1>
+          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">{board?.name}</h1>
           {project && (
             <div className="flex items-center gap-3 mt-1">
-              <Link to={`/projects/${projectId}/board`} className="text-xs text-primary-600 font-medium bg-primary-50 px-2.5 py-1 rounded-lg">Board</Link>
-              <Link to={`/projects/${projectId}/chat`} className="text-xs text-gray-500 hover:text-gray-700 px-2.5 py-1 rounded-lg hover:bg-gray-100 transition">Chat</Link>
-              <Link to={`/projects/${projectId}/wiki`} className="text-xs text-gray-500 hover:text-gray-700 px-2.5 py-1 rounded-lg hover:bg-gray-100 transition">Wiki</Link>
+              <Link to={`/projects/${projectId}/board`} className="text-xs text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/30 dark:text-primary-400 px-2.5 py-1 rounded-lg">Board</Link>
+              <Link to={`/projects/${projectId}/chat`} className="text-xs text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 px-2.5 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">Chat</Link>
+              <Link to={`/projects/${projectId}/wiki`} className="text-xs text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 px-2.5 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">Wiki</Link>
             </div>
           )}
         </div>
         {canEdit && (
           <button onClick={() => setShowCreate(true)}
-            className="px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-medium hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 transition-all active:scale-95">
+            className="px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-medium hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95">
             + Add Task
           </button>
         )}
@@ -135,17 +135,17 @@ export default function Board() {
         <div className="relative flex-1 max-w-xs">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search tasks..."
-            className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" />
+            className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" />
         </div>
         <select value={priorityFilter} onChange={e => setPriorityFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
+          className="px-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
           <option value="">All priorities</option>
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
           <option value="urgent">Urgent</option>
         </select>
-        <span className="text-xs text-gray-400">{filteredTasks.length} tasks</span>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{filteredTasks.length} tasks</span>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
@@ -163,27 +163,27 @@ export default function Board() {
       <Modal open={showCreate} onClose={() => setShowCreate(false)} title="Create Task">
         <form onSubmit={createTask} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
             <input value={newTask.title} onChange={(e) => setNewTask({ ...newTask, title: e.target.value })} required placeholder="What needs to be done?"
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
+              className="w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
             <textarea value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })} rows={3} placeholder="Add details..."
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none" />
+              className="w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Column</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Column</label>
               <select value={newTask.columnName} onChange={(e) => setNewTask({ ...newTask, columnName: e.target.value })}
-                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
+                className="w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
                 {columns.map((c) => <option key={c.name} value={c.name}>{c.name}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
               <select value={newTask.priority} onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
-                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
+                className="w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
@@ -193,9 +193,9 @@ export default function Board() {
           </div>
           <div className="flex gap-2 justify-end pt-2">
             <button type="button" onClick={() => setShowCreate(false)}
-              className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition">Cancel</button>
+              className="px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">Cancel</button>
             <button type="submit"
-              className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 transition-all active:scale-95">
+              className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95">
               Create Task
             </button>
           </div>

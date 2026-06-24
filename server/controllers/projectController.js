@@ -39,9 +39,13 @@ exports.create = async (req, res) => {
       project: project._id,
       organization: req.organization._id,
       columns: [
-        { name: 'To Do', order: 0, color: '#6b7280' },
-        { name: 'In Progress', order: 1, color: '#3b82f6' },
-        { name: 'Done', order: 2, color: '#22c55e' },
+        { name: 'Backlog', order: 0, color: '#9ca3af' },
+        { name: 'To Do', order: 1, color: '#6b7280' },
+        { name: 'In Progress', order: 2, color: '#3b82f6' },
+        { name: 'Review', order: 3, color: '#f59e0b' },
+        { name: 'Testing', order: 4, color: '#8b5cf6' },
+        { name: 'Done', order: 5, color: '#22c55e' },
+        { name: 'Archived', order: 6, color: '#6b7280' },
       ],
     });
 
