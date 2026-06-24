@@ -41,6 +41,7 @@ app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/files', require('./routes/files'));
 app.use('/api/audit', require('./routes/audit'));
 app.use('/api/documents', require('./routes/documents'));
+app.use('/api/calendar', require('./routes/calendar'));
 
 const clientDist = path.join(__dirname, '..', 'client', 'dist');
 app.use(express.static(clientDist));

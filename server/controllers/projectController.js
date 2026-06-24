@@ -28,25 +28,33 @@ exports.getOne = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { name, key, description, lead, team } = req.body;
+    const { name, key, description, lead, team, columns } = req.body;
     const project = await Project.create({
       name, key, description, lead, team,
       organization: req.organization._id,
     });
 
+    const defaultColumns = columns && columns.length > 0
+      ? columns.map((c, i) => ({
+          name: typeof c === 'string' ? c : c.name,
+          order: i,
+          color: typeof c === 'object' && c.color ? c.color : ['#9ca3af','#6b7280','#3b82f6','#f59e0b','#8b5cf6','#22c55e','#6b7280'][i] || '#6b7280',
+        }))
+      : [
+          { name: 'Backlog', order: 0, color: '#9ca3af' },
+          { name: 'To Do', order: 1, color: '#6b7280' },
+          { name: 'In Progress', order: 2, color: '#3b82f6' },
+          { name: 'Review', order: 3, color: '#f59e0b' },
+          { name: 'Testing', order: 4, color: '#8b5cf6' },
+          { name: 'Done', order: 5, color: '#22c55e' },
+          { name: 'Archived', order: 6, color: '#6b7280' },
+        ];
+
     await Board.create({
       name: `${name} Board`,
       project: project._id,
       organization: req.organization._id,
-      columns: [
-        { name: 'Backlog', order: 0, color: '#9ca3af' },
-        { name: 'To Do', order: 1, color: '#6b7280' },
-        { name: 'In Progress', order: 2, color: '#3b82f6' },
-        { name: 'Review', order: 3, color: '#f59e0b' },
-        { name: 'Testing', order: 4, color: '#8b5cf6' },
-        { name: 'Done', order: 5, color: '#22c55e' },
-        { name: 'Archived', order: 6, color: '#6b7280' },
-      ],
+      columns: defaultColumns,
     });
 
     await ChatRoom.create({
