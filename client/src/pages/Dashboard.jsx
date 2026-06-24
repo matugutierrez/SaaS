@@ -24,10 +24,10 @@ const barColors = {
 };
 
 const statCards = [
-  { label: 'Total Tasks', key: 'total', icon: '📋', from: 'from-slate-600', to: 'to-slate-700' },
-  { label: 'In Progress', key: 'inProgress', icon: '⚡', from: 'from-blue-600', to: 'to-indigo-700' },
-  { label: 'Completed', key: 'completed', icon: '✅', from: 'from-emerald-600', to: 'to-green-700' },
-  { label: 'Overdue', key: 'overdue', icon: '⚠️', from: 'from-rose-600', to: 'to-red-700' },
+  { label: 'Total Tasks', key: 'total', icon: '📋', accent: 'border-l-blue-500', circle: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400', number: 'text-blue-600 dark:text-blue-400' },
+  { label: 'In Progress', key: 'inProgress', icon: '⚡', accent: 'border-l-amber-500', circle: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400', number: 'text-amber-600 dark:text-amber-400' },
+  { label: 'Completed', key: 'completed', icon: '✅', accent: 'border-l-emerald-500', circle: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400', number: 'text-emerald-600 dark:text-emerald-400' },
+  { label: 'Overdue', key: 'overdue', icon: '⚠️', accent: 'border-l-rose-500', circle: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400', number: 'text-rose-600 dark:text-rose-400' },
 ];
 
 export default function Dashboard() {
@@ -103,12 +103,14 @@ export default function Dashboard() {
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {statCards.map((card, i) => (
-              <div key={i} className={`bg-gradient-to-br ${card.from} ${card.to} rounded-2xl p-5 text-white shadow-lg transform hover:scale-[1.02] transition-all duration-200`}>
+              <div className={`bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 border-l-4 ${card.accent} p-5 shadow-sm hover:shadow-md transition-all duration-200`}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-2xl">{card.icon}</span>
-                  <span className={`text-3xl font-bold ${getStatValue(card.key) === 0 ? 'opacity-50' : ''}`}>{getStatValue(card.key)}</span>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg ${card.circle}`}>
+                    {card.icon}
+                  </div>
+                  <span className={`text-3xl font-bold ${card.number} ${getStatValue(card.key) === 0 ? 'opacity-50' : ''}`}>{getStatValue(card.key)}</span>
                 </div>
-                <p className="text-sm text-white/80">{card.label}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{card.label}</p>
               </div>
             ))}
           </div>

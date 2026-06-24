@@ -35,12 +35,12 @@ export default function Sidebar() {
   const canViewAudit = user?.role === 'owner' || user?.role === 'admin_plus';
 
   return (
-    <aside className={`bg-gray-900 dark:bg-gray-950 text-white flex flex-col transition-all duration-300 flex-shrink-0 ${expanded ? 'w-64' : 'w-[68px]'}`}>
-      <div className="flex items-center justify-between px-4 h-14 border-b border-gray-800/50">
+    <aside className={`bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col transition-all duration-300 flex-shrink-0 ${expanded ? 'w-64' : 'w-[68px]'}`}>
+      <div className="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">
         {expanded && (
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-primary-900/30">F</div>
-            <span className="text-base font-bold tracking-tight">FlowSpace</span>
+            <span className="text-base font-bold tracking-tight text-gray-800 dark:text-white">FlowSpace</span>
           </div>
         )}
         {!expanded && (
@@ -48,7 +48,7 @@ export default function Sidebar() {
             <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center text-white text-sm font-bold">F</div>
           </div>
         )}
-        <button onClick={() => setExpanded(!expanded)} className="text-gray-500 hover:text-white p-1.5 rounded-lg hover:bg-gray-800 transition-all">
+        <button onClick={() => setExpanded(!expanded)} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
           <svg className="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={expanded ? 'M11 19l-7-7 7-7m8 14l-7-7 7-7' : 'M13 5l7 7-7 7M5 5l7 7-7 7'} />
           </svg>
@@ -59,23 +59,23 @@ export default function Sidebar() {
         {mainNav.map((item) => (
           item.path.startsWith('/') && !item.comingSoon ? (
             <NavLink key={item.path} to={item.path} end={item.end} className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${isActive ? 'bg-gradient-to-r from-primary-600/20 to-primary-600/10 text-primary-300 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-gray-800/50'}`
+              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'}`
             }>
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} /></svg>
               {expanded && <span>{item.label}</span>}
             </NavLink>
           ) : expanded && item.comingSoon ? (
-            <div key={item.path} className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 cursor-not-allowed">
+            <div key={item.path} className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 dark:text-gray-600 cursor-not-allowed">
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} /></svg>
               <span className="flex-1">{item.label}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 font-mono">soon</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 font-mono">soon</span>
             </div>
           ) : null
         ))}
 
         {canViewAudit && (
           <NavLink to="/audit" className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${isActive ? 'bg-gradient-to-r from-primary-600/20 to-primary-600/10 text-primary-300 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-gray-800/50'}`
+            `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'}`
           }>
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={iconPaths.audit} /></svg>
             {expanded && <span>Audit Log</span>}
@@ -83,14 +83,14 @@ export default function Sidebar() {
         )}
 
         <NavLink to="/settings" className={({ isActive }) =>
-          `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${isActive ? 'bg-gradient-to-r from-primary-600/20 to-primary-600/10 text-primary-300 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-gray-800/50'}`
+          `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'}`
         }>
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={iconPaths.settings} /></svg>
           {expanded && <span>Settings</span>}
         </NavLink>
 
         <div className="mt-4 mb-2 px-3">
-          <button onClick={() => setProjectsOpen(!projectsOpen)} className="flex items-center justify-between w-full text-[11px] font-semibold text-gray-500 uppercase tracking-widest hover:text-gray-300 transition">
+          <button onClick={() => setProjectsOpen(!projectsOpen)} className="flex items-center justify-between w-full text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest hover:text-gray-600 dark:hover:text-gray-300 transition">
             {expanded && <span>Projects</span>}
             <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${projectsOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
@@ -99,14 +99,14 @@ export default function Sidebar() {
         {projectsOpen && (
           <div className="space-y-0.5">
             {projects.length === 0 && expanded && (
-              <p className="text-xs text-gray-600 text-center py-4">No projects yet</p>
+              <p className="text-xs text-gray-400 dark:text-gray-600 text-center py-4">No projects yet</p>
             )}
             {projects.map((p) => (
               <div key={p._id}>
                 <NavLink to={`/projects/${p._id}/board`} className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-150 ${isActive ? 'bg-gray-800/80 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800/50'}`
+                  `flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-150 ${isActive ? 'bg-gray-100 dark:bg-gray-800 text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'}`
                 }>
-                  <div className="w-6 h-6 rounded-lg bg-gray-700 flex items-center justify-center text-[10px] font-bold text-gray-300 flex-shrink-0">
+                  <div className="w-6 h-6 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-[10px] font-bold text-gray-500 dark:text-gray-300 flex-shrink-0">
                     {p.key?.slice(0, 2)}
                   </div>
                   {expanded && <span className="truncate">{p.name}</span>}
@@ -119,7 +119,7 @@ export default function Sidebar() {
                       { to: `/projects/${p._id}/wiki`, label: 'Wiki', icon: iconPaths.wiki },
                     ].map((link) => (
                       <NavLink key={link.to} to={link.to} className={({ isActive }) =>
-                        `flex items-center gap-2 py-1.5 px-2 rounded-lg text-xs transition ${isActive ? 'text-primary-400 bg-primary-900/20' : 'text-gray-500 hover:text-gray-300'}`
+                        `flex items-center gap-2 py-1.5 px-2 rounded-lg text-xs transition ${isActive ? 'text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20' : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`
                       }>
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} /></svg>
                         {link.label}
@@ -134,9 +134,9 @@ export default function Sidebar() {
       </nav>
 
       {user && expanded && (
-        <div className="px-3 py-3 border-t border-gray-800/50">
+        <div className="px-3 py-3 border-t border-gray-100 dark:border-gray-800">
           <div className="flex items-center gap-2 px-2">
-            <span className="text-xs text-gray-500 capitalize">{user.role === 'admin_plus' ? 'Admin+' : user.role}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500 capitalize">{user.role === 'admin_plus' ? 'Admin+' : user.role}</span>
           </div>
         </div>
       )}
