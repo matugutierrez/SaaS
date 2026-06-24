@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowSpace - Demo Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #1e293b; }
+    
+    .header { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 60px 20px; text-align: center; }
+    .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .header p { font-size: 1.1rem; opacity: 0.9; }
+    .header .badge { display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-top: 12px; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; }
+    .card h3 { font-size: 1rem; margin-bottom: 8px; color: #1e40af; }
+    .card p { font-size: 0.9rem; color: #64748b; line-height: 1.5; }
+
+    .features { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; margin-bottom: 30px; }
+    .features h2 { font-size: 1.2rem; margin-bottom: 16px; color: #1e293b; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+    .feature-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f8fafc; border-radius: 8px; font-size: 0.9rem; }
+    .feature-item .icon { width: 28px; height: 28px; background: #dbeafe; color: #1e40af; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+    .steps { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; }
+    .steps h2 { font-size: 1.2rem; margin-bottom: 16px; }
+    .step { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+    .step:last-child { border: none; }
+    .step .num { width: 28px; height: 28px; background: #1e40af; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; flex-shrink: 0; }
+    .step .text { font-size: 0.9rem; color: #475569; line-height: 1.4; }
+
+    .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 20px 0; }
+    .role-card { padding: 16px; border-radius: 10px; border: 1px solid #e2e8f0; }
+    .role-card h4 { font-size: 0.95rem; margin-bottom: 6px; }
+    .role-card p { font-size: 0.8rem; color: #64748b; }
+    .role-card.owner { background: #fefce8; border-color: #fde047; }
+    .role-card.admin-plus { background: #eff6ff; border-color: #93c5fd; }
+    .role-card.admin { background: #f0fdf4; border-color: #86efac; }
+    .role-card.member { background: #f8fafc; border-color: #cbd5e1; }
+
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; color: #1e40af; }
+    .footer { text-align: center; padding: 30px; color: #94a3b8; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>FlowSpace</h1>
+    <p>Jira + Slack + Notion — All-in-One Project Management</p>
+    <div class="badge">React · Node.js · Express · MongoDB · Socket.io</div>
+  </div>
+
+  <div class="container">
+    <div class="cards">
+      <div class="card">
+        <h3>📋 Jira — Kanban Boards</h3>
+        <p>Drag & drop tasks across columns. Assign, prioritize, set due dates. Full board management.</p>
+      </div>
+      <div class="card">
+        <h3>💬 Slack — Real-time Chat</h3>
+        <p>Channel-based chat per project. Send messages, see who's online. Powered by Socket.io.</p>
+      </div>
+      <div class="card">
+        <h3>📝 Notion — Wiki & Docs</h3>
+        <p>Rich text editor (TipTap). Version history. Document pages per project.</p>
+      </div>
+      <div class="card">
+        <h3>👥 Multi-tenant</h3>
+        <p>Each organization is isolated. Invite members with a code. Granular RBAC.</p>
+      </div>
+      <div class="card">
+        <h3>🔔 Live Notifications</h3>
+        <p>Real-time notifications for task assignments, comments, and status changes.</p>
+      </div>
+      <div class="card">
+        <h3>📁 File Attachments</h3>
+        <p>Upload files directly to MongoDB (GridFS). No external storage needed.</p>
+      </div>
+      <div class="card">
+        <h3>📊 Productivity Dashboard</h3>
+        <p>Overview of tasks by status, overdue items, assigned tasks, and recent activity.</p>
+      </div>
+      <div class="card">
+        <h3>📜 Audit Log</h3>
+        <p>Every action is logged. Filterable table. Visible to Admin+ and Owner.</p>
+      </div>
+    </div>
+
+    <div class="features">
+      <h2>🔧 Tech Stack</h2>
+      <div class="features-grid">
+        <div class="feature-item"><span class="icon">⚛</span> React 18 + Vite (frontend)</div>
+        <div class="feature-item"><span class="icon">🖥</span> Node.js + Express (API)</div>
+        <div class="feature-item"><span class="icon">🗄</span> MongoDB + Mongoose + GridFS</div>
+        <div class="feature-item"><span class="icon">🔌</span> Socket.io (real-time)</div>
+        <div class="feature-item"><span class="icon">🔐</span> JWT + bcrypt (auth)</div>
+        <div class="feature-item"><span class="icon">🎨</span> Tailwind CSS (UI)</div>
+        <div class="feature-item"><span class="icon">📦</span> @hello-pangea/dnd (drag & drop)</div>
+        <div class="feature-item"><span class="icon">📝</span> @tiptap/react (rich text)</div>
+      </div>
+    </div>
+
+    <div class="features">
+      <h2>👑 Role System</h2>
+      <div class="roles">
+        <div class="role-card owner">
+          <h4>👑 Owner</h4>
+          <p>Full access. Can transfer ownership. Cannot be removed or demoted. Supreme.</p>
+        </div>
+        <div class="role-card admin-plus">
+          <h4>⭐ Admin+</h4>
+          <p>Can invite members, manage roles (except Owner), full CRUD, view audit log.</p>
+        </div>
+        <div class="role-card admin">
+          <h4>⚡ Admin</h4>
+          <p>Create, edit, delete projects, tasks, boards, documents. Cannot invite or manage roles.</p>
+        </div>
+        <div class="role-card member">
+          <h4>👤 Member</h4>
+          <p>View everything. Chat with team. Cannot create, edit, or delete anything.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <h2>🚀 Deploy Steps</h2>
+      <div class="step">
+        <div class="num">1</div>
+        <div class="text"><strong>Create MongoDB Atlas</strong> — Free tier (512MB, no credit card). Get your <code>MONGO_URI</code>.</div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="text"><strong>Push to GitHub</strong> — <code>git init && git add . && git commit -m "init" && git push</code></div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="text"><strong>Connect to Render</strong> — New Web Service → select repo. Free plan.</div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="text"><strong>Set env vars</strong> — <code>MONGO_URI</code> (from Atlas) and <code>JWT_SECRET</code> (any string).</div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="text"><strong>Deploy</strong> — Render builds automatically. Your app is live at <code>https://your-app.onrender.com</code></div>
+      </div>
+      <div class="step">
+        <div class="num">6</div>
+        <div class="text"><strong>Register</strong> — First user = Owner. Get invite code from Settings → invite teammates.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Built with React, Node.js, Express, MongoDB & Socket.io — 80+ files, 14 models, 11 features
+  </div>
+</body>
+</html>
