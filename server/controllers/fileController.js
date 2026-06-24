@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const path = require('path');
+const { Readable } = require('stream');
 const File = require('../models/File');
 const Task = require('../models/Task');
 const { getGridFSBucket } = require('../config/db');
@@ -12,19 +11,37 @@ exports.upload = async (req, res) => {
       const task = await Task.findOne({ _id: taskId, organization: req.organization._id });
       if (!task) return res.status(404).json({ error: 'Task not found' });
     }
-    const fileDoc = await File.create({
-      originalName: req.file.originalname,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-      gridfsId: req.file.id,
-      uploadedBy: req.user._id,
-      organization: req.organization._id,
-      task: taskId || undefined,
+
+    const bucket = getGridFSBucket();
+    const readable = new Readable();
+    readable.push(req.file.buffer);
+    readable.push(null);
+
+    const uploadStream = bucket.openUploadStream(req.file.originalname, {
+      contentType: req.file.mimetype,
     });
-    if (taskId) {
-      await Task.findByIdAndUpdate(taskId, { $push: { attachments: fileDoc._id } });
-    }
-    res.status(201).json({ file: fileDoc });
+
+    readable.pipe(uploadStream);
+
+    uploadStream.on('finish', async () => {
+      const fileDoc = await File.create({
+        originalName: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        gridfsId: uploadStream.id,
+        uploadedBy: req.user._id,
+        organization: req.organization._id,
+        task: taskId || undefined,
+      });
+      if (taskId) {
+        await Task.findByIdAndUpdate(taskId, { $push: { attachments: fileDoc._id } });
+      }
+      res.status(201).json({ file: fileDoc });
+    });
+
+    uploadStream.on('error', (err) => {
+      res.status(500).json({ error: err.message });
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
