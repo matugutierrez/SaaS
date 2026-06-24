@@ -17,9 +17,9 @@ const iconPaths = {
 
 const mainNav = [
   { path: '/', label: 'Dashboard', icon: iconPaths.dashboard, end: true },
-  { path: '/calendar', label: 'Calendar', icon: iconPaths.calendar, end: true, comingSoon: true },
-  { path: '/reports', label: 'Reports', icon: iconPaths.reports, end: true, comingSoon: true },
-  { path: '/templates', label: 'Templates', icon: iconPaths.templates, comingSoon: true },
+  { path: '/calendar', label: 'Calendar', icon: iconPaths.calendar, end: true },
+  { path: '/reports', label: 'Reports', icon: iconPaths.reports, end: true },
+  { path: '/templates', label: 'Templates', icon: iconPaths.templates },
 ];
 
 export default function Sidebar() {

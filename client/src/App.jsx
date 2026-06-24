@@ -12,6 +12,9 @@ import WikiPage from './pages/WikiPage';
 import WikiEditor from './pages/WikiEditor';
 import AuditLog from './pages/AuditLog';
 import Settings from './pages/Settings';
+import Calendar from './pages/Calendar';
+import Reports from './pages/Reports';
+import Templates from './pages/Templates';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -40,6 +43,9 @@ export default function App() {
         <Route path="projects/:projectId/wiki/new" element={<WikiEditor />} />
         <Route path="projects/:projectId/wiki/:docId" element={<WikiPage />} />
         <Route path="projects/:projectId/wiki/:docId/edit" element={<WikiEditor />} />
+        <Route path="calendar" element={<Calendar />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="templates" element={<Templates />} />
         <Route path="audit" element={<AuditLog />} />
         <Route path="settings" element={<Settings />} />
       </Route>
