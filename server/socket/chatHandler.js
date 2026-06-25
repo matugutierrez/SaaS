@@ -24,6 +24,18 @@ function chatHandler(io, socket) {
       socket.emit('error', { message: err.message });
     }
   });
+
+  socket.on('chat:delete', async ({ messageId, roomId }) => {
+    try {
+      const message = await ChatMessage.findOne({ _id: messageId, organization: socket.orgId });
+      if (!message) return;
+      message.deleted = true;
+      await message.save();
+      io.to(`room:${roomId}`).emit('chat:messageDeleted', { messageId, roomId });
+    } catch (err) {
+      socket.emit('error', { message: err.message });
+    }
+  });
 }
 
 module.exports = chatHandler;

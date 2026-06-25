@@ -50,3 +50,22 @@ exports.sendMessage = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.deleteMessage = async (req, res) => {
+  try {
+    const message = await ChatMessage.findOne({
+      _id: req.params.messageId,
+      organization: req.organization._id,
+    });
+    if (!message) return res.status(404).json({ error: 'Message not found' });
+    if (message.deleted) return res.status(400).json({ error: 'Message already deleted' });
+
+    message.deleted = true;
+    await message.save();
+
+    req.app.get('io').to(`room:${message.room}`).emit('chat:messageDeleted', { messageId: message._id, roomId: message.room });
+    res.json({ message: 'Message deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

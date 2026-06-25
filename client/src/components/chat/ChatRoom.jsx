@@ -32,10 +32,15 @@ export default function ChatRoom({ roomId, roomName }) {
     const handler = (msg) => {
       setMessages((prev) => [...prev, msg]);
     };
+    const deleteHandler = ({ messageId }) => {
+      setMessages((prev) => prev.filter(m => m._id !== messageId));
+    };
     socket.on('chat:message', handler);
+    socket.on('chat:messageDeleted', deleteHandler);
     return () => {
       socket.emit('chat:leave', roomId);
       socket.off('chat:message', handler);
+      socket.off('chat:messageDeleted', deleteHandler);
     };
   }, [socket, roomId]);
 

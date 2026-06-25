@@ -5,6 +5,7 @@ const chatMessageSchema = new mongoose.Schema({
   sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true },
   content: { type: String, required: true },
+  deleted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 
