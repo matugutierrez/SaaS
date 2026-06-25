@@ -84,6 +84,42 @@ export default function Dashboard() {
     return 0;
   };
 
+  const calcTrend = (key) => {
+    const t = data?.trend?.[key];
+    if (!t) return null;
+    if (t.previous === 0 && t.current > 0) return 100;
+    if (t.previous === 0 && t.current === 0) return 0;
+    return Math.round(((t.current - t.previous) / t.previous) * 100);
+  };
+
+  const trendUp = (val) => val > 0;
+  const trendDown = (val) => val < 0;
+
+  const isInverted = (key) => key === 'overdue';
+
+  const TrendIndicator = ({ value, inverted }) => {
+    if (value === null || value === 0) return null;
+    const up = inverted ? trendDown(value) : trendUp(value);
+    const down = inverted ? trendUp(value) : trendDown(value);
+    const color = up ? 'text-emerald-500' : down ? 'text-rose-500' : 'text-gray-400';
+    return (
+      <div className={`flex items-center gap-1 ${color}`}>
+        {up ? (
+          <svg className="w-4 h-4" viewBox="0 0 24 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 14 13 9 8 1 16" />
+            <polyline points="17 4 23 4 23 10" />
+          </svg>
+        ) : (
+          <svg className="w-4 h-4" viewBox="0 0 24 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 16 14 7 9 12 1 4" />
+            <polyline points="17 16 23 16 23 10" />
+          </svg>
+        )}
+        <span className="text-xs font-bold">{up ? '+' : ''}{value}%</span>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -102,17 +138,24 @@ export default function Dashboard() {
       {data && (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {statCards.map((card, i) => (
-              <div className={`bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 border-l-4 ${card.accent} p-5 shadow-sm hover:shadow-md transition-all duration-200`}>
-                <div className="flex items-center justify-between mb-3">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg ${card.circle}`}>
-                    {card.icon}
+            {statCards.map((card, i) => {
+              const val = getStatValue(card.key);
+              const trend = calcTrend(card.key);
+              return (
+                <div key={card.key} className={`bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 border-l-4 ${card.accent} p-5 shadow-sm hover:shadow-md transition-all duration-200`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg ${card.circle}`}>
+                      {card.icon}
+                    </div>
+                    <span className={`text-3xl font-bold ${card.number} ${val === 0 ? 'opacity-50' : ''}`}>{val}</span>
                   </div>
-                  <span className={`text-3xl font-bold ${card.number} ${getStatValue(card.key) === 0 ? 'opacity-50' : ''}`}>{getStatValue(card.key)}</span>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{card.label}</p>
+                    <TrendIndicator value={trend} inverted={isInverted(card.key)} />
+                  </div>
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{card.label}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

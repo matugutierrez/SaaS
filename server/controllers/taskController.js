@@ -153,6 +153,10 @@ exports.remove = async (req, res) => {
 exports.dashboard = async (req, res) => {
   try {
     const orgId = req.organization._id;
+    const now = new Date();
+    const thirtyAgo = new Date(now - 30 * 86400000);
+    const sixtyAgo = new Date(now - 60 * 86400000);
+
     const total = await Task.countDocuments({ organization: orgId });
     const byColumn = await Task.aggregate([
       { $match: { organization: orgId } },
@@ -160,7 +164,7 @@ exports.dashboard = async (req, res) => {
     ]);
     const overdue = await Task.countDocuments({
       organization: orgId,
-      dueDate: { $lt: new Date() },
+      dueDate: { $lt: now },
       columnName: { $ne: 'Done' },
     });
     const assignedToMe = await Task.countDocuments({
@@ -172,7 +176,28 @@ exports.dashboard = async (req, res) => {
       .populate('assignee', 'name')
       .sort({ updatedAt: -1 })
       .limit(10);
-    res.json({ total, byColumn, overdue, assignedToMe, recent });
+
+    const totalThisPeriod = await Task.countDocuments({ organization: orgId, createdAt: { $gte: thirtyAgo } });
+    const totalPrevPeriod = await Task.countDocuments({ organization: orgId, createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+
+    const inProgressThisPeriod = await Task.countDocuments({ organization: orgId, columnName: 'In Progress', createdAt: { $gte: thirtyAgo } });
+    const inProgressPrevPeriod = await Task.countDocuments({ organization: orgId, columnName: 'In Progress', createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+
+    const completedThisPeriod = await Task.countDocuments({ organization: orgId, columnName: 'Done', updatedAt: { $gte: thirtyAgo } });
+    const completedPrevPeriod = await Task.countDocuments({ organization: orgId, columnName: 'Done', updatedAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+
+    const overdueThisPeriod = await Task.countDocuments({ organization: orgId, dueDate: { $lt: now }, columnName: { $ne: 'Done' }, createdAt: { $gte: thirtyAgo } });
+    const overduePrevPeriod = await Task.countDocuments({ organization: orgId, dueDate: { $lt: now }, columnName: { $ne: 'Done' }, createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+
+    res.json({
+      total, byColumn, overdue, assignedToMe, recent,
+      trend: {
+        total: { current: totalThisPeriod, previous: totalPrevPeriod },
+        inProgress: { current: inProgressThisPeriod, previous: inProgressPrevPeriod },
+        completed: { current: completedThisPeriod, previous: completedPrevPeriod },
+        overdue: { current: overdueThisPeriod, previous: overduePrevPeriod },
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -43,27 +43,27 @@ export default function Message({ message, onReply }) {
 
   return (
     <div className={`flex ${isOwn ? 'justify-end' : 'justify-start'} mb-3 group`}>
-      <div className={`flex gap-2.5 max-w-[75%] ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
+      <div className={`flex gap-2.5 max-w-[80%] ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
         {!isOwn && (
           <div className={`w-8 h-8 bg-gradient-to-br ${getAvatarColor(message.sender?._id)} rounded-xl flex items-center justify-center text-xs font-bold text-white flex-shrink-0 shadow-sm mt-6`}>
             {message.sender?.name?.[0]?.toUpperCase() || '?'}
           </div>
         )}
-        <div className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'}`}>
+        <div className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'} min-w-0`}>
           {!isOwn && (
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 mb-0.5 ml-1 font-medium">{message.sender?.name}</p>
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 mb-0.5 ml-1 font-medium truncate max-w-full">{message.sender?.name}</p>
           )}
-          <div className="flex items-end gap-1.5">
+          <div className="flex items-start gap-1 max-w-full">
             {isOwn && (
-              <div className="relative mb-1">
+              <div className="relative flex-shrink-0 mt-1">
                 <button onClick={() => setMenuOpen(!menuOpen)}
-                  className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition text-gray-400 dark:text-gray-500">
+                  className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-400 dark:text-gray-500">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="4" r="1.5" /><circle cx="10" cy="10" r="1.5" /><circle cx="10" cy="16" r="1.5" /></svg>
                 </button>
-                {menuOpen && <MessageMenu onClose={() => setMenuOpen(false)} onDelete={canDelete ? handleDelete : null} isOwn />}
+                {menuOpen && <MessageMenu onClose={() => setMenuOpen(false)} onDelete={canDelete ? handleDelete : null} />}
               </div>
             )}
-            <div className="relative">
+            <div className="relative max-w-full min-w-0">
               <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${
                 isOwn
                   ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-primary-200 dark:shadow-primary-900/30'
@@ -71,14 +71,14 @@ export default function Message({ message, onReply }) {
               }`}>
                 <p className="whitespace-pre-wrap break-words">{message.content}</p>
               </div>
-              <p className={`text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 ${isOwn ? 'text-right mr-1' : 'ml-1'}`}>
+              <p className={`text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 ${isOwn ? 'text-right' : 'text-left'}`}>
                 {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>
             </div>
             {!isOwn && (
-              <div className="relative mb-1">
+              <div className="relative flex-shrink-0 mt-1">
                 <button onClick={() => setMenuOpen(!menuOpen)}
-                  className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition text-gray-400 dark:text-gray-500">
+                  className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-400 dark:text-gray-500">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="4" r="1.5" /><circle cx="10" cy="10" r="1.5" /><circle cx="10" cy="16" r="1.5" /></svg>
                 </button>
                 {menuOpen && <MessageMenu onClose={() => setMenuOpen(false)} onReply={() => { setMenuOpen(false); onReply?.(message); }} onDelete={canDelete ? handleDelete : null} />}
@@ -91,11 +91,11 @@ export default function Message({ message, onReply }) {
   );
 }
 
-function MessageMenu({ onClose, onReply, onDelete, isOwn }) {
+function MessageMenu({ onClose, onReply, onDelete }) {
   return (
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
-      <div className={`absolute z-20 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 min-w-[130px] ${isOwn ? 'right-0 bottom-full mb-1' : 'left-0 bottom-full mb-1'}`}>
+      <div className="absolute z-20 top-full mt-1 right-0 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 min-w-[140px]">
         {onReply && (
           <button onClick={onReply} className="w-full text-left px-3.5 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
