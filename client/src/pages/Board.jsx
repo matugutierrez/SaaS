@@ -21,13 +21,25 @@ export default function Board() {
   const [priorityFilter, setPriorityFilter] = useState('');
   const [showQuickView, setShowQuickView] = useState(null);
   const [newTask, setNewTask] = useState({ title: '', description: '', assignee: '', priority: 'medium', columnName: '' });
-  const [hoveredCol, setHoveredCol] = useState(null);
 
   const scrollRef = useRef(null);
   const isDragging = useRef(false);
   const mousePos = useRef(null);
   const rafId = useRef(null);
   const hoveredColRef = useRef(null);
+
+  const highlightCol = (name) => {
+    if (hoveredColRef.current === name) return;
+    if (hoveredColRef.current) {
+      const prev = document.querySelector(`[data-column-name="${CSS.escape(hoveredColRef.current)}"]`);
+      if (prev) prev.classList.remove('ring-2', 'ring-primary-400', 'ring-inset');
+    }
+    if (name) {
+      const next = document.querySelector(`[data-column-name="${CSS.escape(name)}"]`);
+      if (next) next.classList.add('ring-2', 'ring-primary-400', 'ring-inset');
+    }
+    hoveredColRef.current = name;
+  };
 
   useEffect(() => {
     Promise.all([
@@ -64,18 +76,14 @@ export default function Board() {
       if (!isDragging.current) return;
       mousePos.current = { x: e.clientX, y: e.clientY };
       const colEls = document.querySelectorAll('[data-column-name]');
-      let found = null;
       for (const colEl of colEls) {
         const rect = colEl.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX < rect.right) {
-          found = colEl.getAttribute('data-column-name');
-          break;
+          highlightCol(colEl.getAttribute('data-column-name'));
+          return;
         }
       }
-      if (hoveredColRef.current !== found) {
-        hoveredColRef.current = found;
-        setHoveredCol(found);
-      }
+      highlightCol(null);
     };
     window.addEventListener('mousemove', handler);
     return () => window.removeEventListener('mousemove', handler);
@@ -118,9 +126,8 @@ export default function Board() {
 
   const onDragEnd = async (result) => {
     cancelAnimationFrame(rafId.current);
+    highlightCol(null);
     isDragging.current = false;
-    setHoveredCol(null);
-    hoveredColRef.current = null;
     const mouse = mousePos.current;
     mousePos.current = null;
 
@@ -246,7 +253,6 @@ export default function Board() {
             <BoardColumn
               key={col.name}
               column={col}
-              hoveredCol={hoveredCol}
               tasks={filteredTasks.filter((t) => t.columnName === col.name).sort((a, b) => a.position - b.position)}
             />
           ))}
