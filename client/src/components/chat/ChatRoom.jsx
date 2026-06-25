@@ -104,7 +104,7 @@ export default function ChatRoom({ roomId, roomName }) {
                 <p className="text-gray-300 dark:text-gray-600 text-xs mt-1">Be the first to say something</p>
               </div>
             ) : (
-              messages.map((msg) => <Message key={msg._id} message={msg} />)
+              messages.map((msg) => <Message key={msg._id} message={msg} onReply={() => {}} />)
             )}
             <div ref={bottomRef} />
           </>
