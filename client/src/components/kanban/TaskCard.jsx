@@ -13,7 +13,7 @@ export default function TaskCard({ task, index }) {
   return (
     <Draggable draggableId={task._id} index={index}>
       {(provided, snapshot) => (
-        <a
+          <a data-task-id={task._id}
           href={`/tasks/${task._id}`}
           ref={provided.innerRef}
           {...provided.draggableProps}

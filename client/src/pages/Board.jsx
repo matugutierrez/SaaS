@@ -24,7 +24,7 @@ export default function Board() {
 
   const scrollRef = useRef(null);
   const isDragging = useRef(false);
-  const mouseX = useRef(null);
+  const mousePos = useRef(null);
   const rafId = useRef(null);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function Board() {
 
   useEffect(() => {
     const handler = (e) => {
-      if (isDragging.current) mouseX.current = e.clientX;
+      if (isDragging.current) mousePos.current = { x: e.clientX, y: e.clientY };
     };
     window.addEventListener('mousemove', handler);
     return () => window.removeEventListener('mousemove', handler);
@@ -74,12 +74,12 @@ export default function Board() {
   }, [tasks, search, priorityFilter]);
 
   const doScroll = () => {
-    if (mouseX.current === null) return;
+    if (mousePos.current === null) return;
     const container = scrollRef.current;
     if (!container) return;
     const threshold = 90;
     const speed = 5;
-    const x = mouseX.current;
+    const x = mousePos.current.x;
     if (x > window.innerWidth - threshold) {
       container.scrollLeft += speed;
       container.dispatchEvent(new Event('scroll'));
@@ -102,23 +102,52 @@ export default function Board() {
 
   const onDragEnd = async (result) => {
     cancelAnimationFrame(rafId.current);
-    if (scrollRef.current) scrollRef.current.dispatchEvent(new Event('scroll'));
     isDragging.current = false;
-    mouseX.current = null;
+    const mouse = mousePos.current;
+    mousePos.current = null;
 
-    if (!result.destination) return;
-    const { draggableId, source, destination } = result;
-    if (source.droppableId === destination.droppableId && source.index === destination.index) return;
-
+    const { draggableId, source } = result;
+    if (!draggableId) return;
     const task = tasks.find((t) => t._id === draggableId);
     if (!task || user?.role === 'member') return;
 
-    const newColTasks = tasks.filter((t) => t.columnName === destination.droppableId && t._id !== draggableId);
-    newColTasks.splice(destination.index, 0, task);
+    // ── Find target column from DOM coordinates ──
+    let targetColName = null;
+    let targetIndex = 0;
+    if (mouse) {
+      const colEls = document.querySelectorAll('[data-column-name]');
+      for (const colEl of colEls) {
+        const rect = colEl.getBoundingClientRect();
+        if (mouse.x >= rect.left && mouse.x < rect.right) {
+          targetColName = colEl.getAttribute('data-column-name');
+          // find insertion index within column by comparing mouse.y to task cards
+          const cards = colEl.querySelectorAll('[data-task-id]');
+          let idx = cards.length;
+          cards.forEach((card, i) => {
+            const cr = card.getBoundingClientRect();
+            if (mouse.y < cr.top + cr.height / 2 && i < idx) idx = i;
+          });
+          targetIndex = idx;
+          break;
+        }
+      }
+    }
+
+    // fallback to library destination if manual calc failed
+    if (!targetColName) {
+      if (!result.destination) return;
+      targetColName = result.destination.droppableId;
+      targetIndex = result.destination.index;
+    }
+
+    if (source.droppableId === targetColName && source.index === targetIndex) return;
+
+    const newColTasks = tasks.filter((t) => t.columnName === targetColName && t._id !== draggableId);
+    newColTasks.splice(targetIndex, 0, task);
 
     setTasks(prev => prev.map(t => {
-      if (t._id === draggableId) return { ...t, columnName: destination.droppableId, position: destination.index };
-      if (t.columnName === destination.droppableId) {
+      if (t._id === draggableId) return { ...t, columnName: targetColName, position: targetIndex };
+      if (t.columnName === targetColName) {
         const idx = newColTasks.findIndex((nt) => nt._id === t._id);
         return { ...t, position: idx };
       }
@@ -126,7 +155,7 @@ export default function Board() {
     }));
 
     try {
-      await api.put(`/tasks/${draggableId}/position`, { columnName: destination.droppableId, position: destination.index });
+      await api.put(`/tasks/${draggableId}/position`, { columnName: targetColName, position: targetIndex });
     } catch (err) {}
   };
 
