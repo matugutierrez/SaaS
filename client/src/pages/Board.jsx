@@ -30,14 +30,16 @@ export default function Board() {
 
   const highlightCol = (name) => {
     if (hoveredColRef.current === name) return;
-    if (hoveredColRef.current) {
-      const prev = document.querySelector(`[data-column-name="${CSS.escape(hoveredColRef.current)}"]`);
-      if (prev) prev.classList.remove('ring-2', 'ring-primary-400', 'ring-inset');
-    }
-    if (name) {
-      const next = document.querySelector(`[data-column-name="${CSS.escape(name)}"]`);
-      if (next) next.classList.add('ring-2', 'ring-primary-400', 'ring-inset');
-    }
+    const toggle = (colName, add) => {
+      if (!colName) return;
+      const el = document.querySelector(`[data-column-name="${CSS.escape(colName)}"]`);
+      if (!el) return;
+      const fn = add ? 'add' : 'remove';
+      el.classList[fn]('ring-2', 'ring-primary-400', 'ring-inset');
+      el.querySelector('.board-droppable')?.classList[fn]('bg-primary-50/50', 'dark:bg-primary-900/30');
+    };
+    toggle(hoveredColRef.current, false);
+    toggle(name, true);
     hoveredColRef.current = name;
   };
 

@@ -14,9 +14,7 @@ export default function BoardColumn({ column, tasks }) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`flex-1 px-2.5 py-2.5 overflow-y-auto min-h-[120px] transition-all duration-200 rounded-b-2xl ${
-              snapshot.isDraggingOver ? 'bg-primary-50/50 dark:bg-primary-900/30' : ''
-            }`}
+            className="flex-1 px-2.5 py-2.5 overflow-y-auto min-h-[120px] transition-all duration-200 rounded-b-2xl board-droppable"
           >
             {tasks.length === 0 && !snapshot.isDraggingOver && (
               <div className="flex items-center justify-center h-24">
