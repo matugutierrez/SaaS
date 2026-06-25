@@ -186,6 +186,18 @@ export default function Board() {
     } catch (err) {}
   };
 
+  const moveTask = (taskId, targetColName) => {
+    const task = tasks.find((t) => t._id === taskId);
+    if (!task || user?.role === 'member' || task.columnName === targetColName) return;
+    const targetTasks = tasks.filter((t) => t.columnName === targetColName && t._id !== taskId);
+    const targetIndex = targetTasks.length;
+    setTasks((prev) => prev.map((t) => {
+      if (t._id === taskId) return { ...t, columnName: targetColName, position: targetIndex };
+      return t;
+    }));
+    api.put(`/tasks/${taskId}/position`, { columnName: targetColName, position: targetIndex }).catch(() => {});
+  };
+
   const createTask = async (e) => {
     e.preventDefault();
     try {
@@ -255,6 +267,8 @@ export default function Board() {
             <BoardColumn
               key={col.name}
               column={col}
+              columns={columns}
+              onMoveTask={moveTask}
               tasks={filteredTasks.filter((t) => t.columnName === col.name).sort((a, b) => a.position - b.position)}
             />
           ))}

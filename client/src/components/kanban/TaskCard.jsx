@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 
 const priorityMeta = {
@@ -7,8 +8,24 @@ const priorityMeta = {
   urgent: { color: 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400', label: 'Urgent' },
 };
 
-export default function TaskCard({ task, index }) {
+export default function TaskCard({ task, index, columns, onMoveTask }) {
   const meta = priorityMeta[task.priority] || priorityMeta.medium;
+  const [ctx, setCtx] = useState(null);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!ctx) return;
+    const close = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setCtx(null);
+    };
+    const esc = (e) => { if (e.key === 'Escape') setCtx(null); };
+    document.addEventListener('mousedown', close, { capture: true });
+    document.addEventListener('keydown', esc);
+    return () => {
+      document.removeEventListener('mousedown', close, { capture: true });
+      document.removeEventListener('keydown', esc);
+    };
+  }, [ctx]);
 
   return (
     <Draggable draggableId={task._id} index={index}>
@@ -18,6 +35,11 @@ export default function TaskCard({ task, index }) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setCtx({ x: e.clientX, y: e.clientY });
+          }}
           className={`block bg-white dark:bg-gray-800 rounded-xl border shadow-sm p-3.5 hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-150 mb-2 group ${
             snapshot.isDragging ? 'shadow-2xl rotate-2 scale-105 border-primary-200 dark:border-primary-700' : 'border-gray-100 dark:border-gray-700'
           }`}
@@ -51,6 +73,24 @@ export default function TaskCard({ task, index }) {
             </div>
           </div>
         </a>
+        {ctx && (
+          <div ref={menuRef} className="fixed z-[99999] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-1.5 min-w-[160px]" style={{ left: ctx.x, top: ctx.y }}>
+            <div className="px-3.5 py-1.5 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Move to</div>
+            {columns.map((col) => (
+              <button key={col.name}
+                onClick={(e) => { e.preventDefault(); onMoveTask?.(task._id, col.name); setCtx(null); }}
+                disabled={col.name === task.columnName}
+                className={`w-full text-left px-3.5 py-2 text-sm transition flex items-center gap-2.5 ${
+                  col.name === task.columnName
+                    ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}>
+                <div className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ backgroundColor: col.color }}></div>
+                {col.name}
+              </button>
+            ))}
+          </div>
+        )}
       )}
     </Draggable>
   );

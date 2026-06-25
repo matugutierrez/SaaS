@@ -1,7 +1,7 @@
 import { Droppable } from '@hello-pangea/dnd';
 import TaskCard from './TaskCard';
 
-export default function BoardColumn({ column, tasks }) {
+export default function BoardColumn({ column, tasks, columns, onMoveTask }) {
   return (
     <div data-column-name={column.name} className="bg-gray-100/80 dark:bg-gray-900 rounded-2xl flex-shrink-0 w-72 flex flex-col max-h-full shadow-sm dark:shadow-gray-900/50 border border-gray-200/50 dark:border-gray-800 transition-colors duration-200">
       <div className="px-4 py-3.5 flex items-center gap-2.5 border-b border-gray-200/50 dark:border-gray-800">
@@ -22,7 +22,7 @@ export default function BoardColumn({ column, tasks }) {
               </div>
             )}
             {tasks.map((task, i) => (
-              <TaskCard key={task._id} task={task} index={i} />
+              <TaskCard key={task._id} task={task} index={i} columns={columns} onMoveTask={onMoveTask} />
             ))}
             {provided.placeholder}
           </div>
