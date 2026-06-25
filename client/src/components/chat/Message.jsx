@@ -55,12 +55,12 @@ export default function Message({ message, onReply, onForward }) {
           )}
           <div className="flex items-start gap-1 max-w-full">
             {isOwn && (
-              <div className="relative flex-shrink-0 mt-1">
+              <div className="relative flex-shrink-0 mt-[7px]">
                 <button onClick={() => setMenuOpen(!menuOpen)}
                   className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-400 dark:text-gray-500">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="4" r="1.5" /><circle cx="10" cy="10" r="1.5" /><circle cx="10" cy="16" r="1.5" /></svg>
                 </button>
-                {menuOpen && <MessageMenu onClose={() => setMenuOpen(false)} onDelete={canDelete ? handleDelete : null} />}
+                {menuOpen && <MessageMenu onClose={() => setMenuOpen(false)} onForward={() => { setMenuOpen(false); onForward?.(message); }} onDelete={canDelete ? handleDelete : null} />}
               </div>
             )}
             <div className="relative max-w-full min-w-0">
@@ -82,7 +82,7 @@ export default function Message({ message, onReply, onForward }) {
               </p>
             </div>
             {!isOwn && (
-              <div className="relative flex-shrink-0 mt-1">
+              <div className="relative flex-shrink-0 mt-[7px]">
                 <button onClick={() => setMenuOpen(!menuOpen)}
                   className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-400 dark:text-gray-500">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="4" r="1.5" /><circle cx="10" cy="10" r="1.5" /><circle cx="10" cy="16" r="1.5" /></svg>
