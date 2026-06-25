@@ -30,7 +30,8 @@ export default function TaskCard({ task, index, columns, onMoveTask }) {
   return (
     <Draggable draggableId={task._id} index={index}>
       {(provided, snapshot) => (
-          <a data-task-id={task._id}
+          <>
+        <a data-task-id={task._id}
           href={`/tasks/${task._id}`}
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -91,6 +92,7 @@ export default function TaskCard({ task, index, columns, onMoveTask }) {
             ))}
           </div>
         )}
+      </>
       )}
     </Draggable>
   );
