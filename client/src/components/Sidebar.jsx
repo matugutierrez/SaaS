@@ -35,7 +35,7 @@ export default function Sidebar() {
   const canViewAudit = user?.role === 'owner' || user?.role === 'admin_plus';
 
   return (
-    <aside className={`bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col transition-all duration-300 flex-shrink-0 ${expanded ? 'w-64' : 'w-[68px]'}`}>
+    <aside className={`bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col transition-all duration-300 flex-shrink-0 relative z-[10000] ${expanded ? 'w-64' : 'w-[68px]'}`}>
       <div className="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">
         {expanded && (
           <div className="flex items-center gap-2.5">

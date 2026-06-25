@@ -68,7 +68,7 @@ exports.forwardMessage = async (req, res) => {
       room: targetRoom._id,
       sender: req.user._id,
       organization: req.organization._id,
-      content: `📨 Forwarded from ${original.sender?.name || 'Unknown'}:\n${original.content}`,
+      content: original.content,
       forwarded: true,
       forwardedFrom: original.sender,
     });

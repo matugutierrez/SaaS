@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { useAuth } from '../context/AuthContext';
@@ -21,6 +21,11 @@ export default function Board() {
   const [priorityFilter, setPriorityFilter] = useState('');
   const [showQuickView, setShowQuickView] = useState(null);
   const [newTask, setNewTask] = useState({ title: '', description: '', assignee: '', priority: 'medium', columnName: '' });
+
+  const scrollRef = useRef(null);
+  const isDragging = useRef(false);
+  const mouseX = useRef(null);
+  const rafId = useRef(null);
 
   useEffect(() => {
     Promise.all([
@@ -52,6 +57,14 @@ export default function Board() {
     };
   }, [socket, board]);
 
+  useEffect(() => {
+    const handler = (e) => {
+      if (isDragging.current) mouseX.current = e.clientX;
+    };
+    window.addEventListener('mousemove', handler);
+    return () => window.removeEventListener('mousemove', handler);
+  }, []);
+
   const filteredTasks = useMemo(() => {
     return tasks.filter(t => {
       if (search && !t.title.toLowerCase().includes(search.toLowerCase())) return false;
@@ -60,7 +73,30 @@ export default function Board() {
     });
   }, [tasks, search, priorityFilter]);
 
+  const scrollLoop = () => {
+    if (!isDragging.current || mouseX.current === null) return;
+    const container = scrollRef.current;
+    if (!container) return;
+    const threshold = 90;
+    const speed = 10;
+    const x = mouseX.current;
+    if (x > window.innerWidth - threshold) {
+      container.scrollLeft += speed;
+    } else if (x < threshold + 260) {
+      container.scrollLeft -= speed;
+    }
+    rafId.current = requestAnimationFrame(scrollLoop);
+  };
+
+  const onDragStart = () => {
+    isDragging.current = true;
+    rafId.current = requestAnimationFrame(scrollLoop);
+  };
+
   const onDragEnd = async (result) => {
+    cancelAnimationFrame(rafId.current);
+    isDragging.current = false;
+    mouseX.current = null;
 
     if (!result.destination) return;
     const { draggableId, source, destination } = result;
@@ -149,8 +185,8 @@ export default function Board() {
         <span className="text-xs text-gray-400 dark:text-gray-500">{filteredTasks.length} tasks</span>
       </div>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex gap-4 flex-1 overflow-x-auto pb-4">
+      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+        <div ref={scrollRef} className="flex gap-4 flex-1 overflow-x-auto pb-4">
           {columns.map((col) => (
             <BoardColumn
               key={col.name}
