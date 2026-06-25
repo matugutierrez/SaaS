@@ -21,11 +21,13 @@ export default function Board() {
   const [priorityFilter, setPriorityFilter] = useState('');
   const [showQuickView, setShowQuickView] = useState(null);
   const [newTask, setNewTask] = useState({ title: '', description: '', assignee: '', priority: 'medium', columnName: '' });
+  const [hoveredCol, setHoveredCol] = useState(null);
 
   const scrollRef = useRef(null);
   const isDragging = useRef(false);
   const mousePos = useRef(null);
   const rafId = useRef(null);
+  const hoveredColRef = useRef(null);
 
   useEffect(() => {
     Promise.all([
@@ -59,7 +61,21 @@ export default function Board() {
 
   useEffect(() => {
     const handler = (e) => {
-      if (isDragging.current) mousePos.current = { x: e.clientX, y: e.clientY };
+      if (!isDragging.current) return;
+      mousePos.current = { x: e.clientX, y: e.clientY };
+      const colEls = document.querySelectorAll('[data-column-name]');
+      let found = null;
+      for (const colEl of colEls) {
+        const rect = colEl.getBoundingClientRect();
+        if (e.clientX >= rect.left && e.clientX < rect.right) {
+          found = colEl.getAttribute('data-column-name');
+          break;
+        }
+      }
+      if (hoveredColRef.current !== found) {
+        hoveredColRef.current = found;
+        setHoveredCol(found);
+      }
     };
     window.addEventListener('mousemove', handler);
     return () => window.removeEventListener('mousemove', handler);
@@ -103,6 +119,8 @@ export default function Board() {
   const onDragEnd = async (result) => {
     cancelAnimationFrame(rafId.current);
     isDragging.current = false;
+    setHoveredCol(null);
+    hoveredColRef.current = null;
     const mouse = mousePos.current;
     mousePos.current = null;
 
@@ -228,6 +246,7 @@ export default function Board() {
             <BoardColumn
               key={col.name}
               column={col}
+              hoveredCol={hoveredCol}
               tasks={filteredTasks.filter((t) => t.columnName === col.name).sort((a, b) => a.position - b.position)}
             />
           ))}
