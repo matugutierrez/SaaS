@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 
@@ -98,10 +98,35 @@ export default function Message({ message, onReply, onForward }) {
 }
 
 function MessageMenu({ onClose, onReply, onForward, onDelete }) {
+  const [dir, setDir] = useState('down');
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const el = menuRef.current;
+    if (!el) return;
+    const parent = el.parentElement;
+    if (!parent) return;
+    const rect = parent.getBoundingClientRect();
+    const menuH = el.offsetHeight;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    if (spaceBelow < menuH && spaceAbove > menuH) {
+      setDir('up');
+    }
+    const menuW = el.offsetWidth;
+    const spaceRight = window.innerWidth - rect.right;
+    if (spaceRight < menuW) {
+      el.style.left = 'auto';
+      el.style.right = '0';
+    }
+  }, []);
+
   return (
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
-      <div className="absolute z-20 top-full mt-1 right-0 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 min-w-[140px]">
+      <div ref={menuRef} className={`absolute z-20 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 min-w-[140px] ${
+        dir === 'up' ? 'bottom-full mb-1' : 'top-full mt-1'
+      } right-0`}>
         {onReply && (
           <button onClick={onReply} className="w-full text-left px-3.5 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>

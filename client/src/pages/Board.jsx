@@ -25,7 +25,6 @@ export default function Board() {
   const scrollRef = useRef(null);
   const isDragging = useRef(false);
   const mouseX = useRef(null);
-  const rafId = useRef(null);
 
   useEffect(() => {
     Promise.all([
@@ -73,8 +72,8 @@ export default function Board() {
     });
   }, [tasks, search, priorityFilter]);
 
-  const scrollLoop = () => {
-    if (!isDragging.current || mouseX.current === null) return;
+  const doScroll = () => {
+    if (mouseX.current === null) return;
     const container = scrollRef.current;
     if (!container) return;
     const threshold = 90;
@@ -85,16 +84,18 @@ export default function Board() {
     } else if (x < threshold + 260) {
       container.scrollLeft -= speed;
     }
-    rafId.current = requestAnimationFrame(scrollLoop);
   };
 
   const onDragStart = () => {
     isDragging.current = true;
-    rafId.current = requestAnimationFrame(scrollLoop);
+  };
+
+  const onDragUpdate = () => {
+    if (!isDragging.current) return;
+    doScroll();
   };
 
   const onDragEnd = async (result) => {
-    cancelAnimationFrame(rafId.current);
     isDragging.current = false;
     mouseX.current = null;
 
@@ -185,7 +186,7 @@ export default function Board() {
         <span className="text-xs text-gray-400 dark:text-gray-500">{filteredTasks.length} tasks</span>
       </div>
 
-      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+      <DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
         <div ref={scrollRef} className="flex gap-4 flex-1 overflow-x-auto pb-4">
           {columns.map((col) => (
             <BoardColumn
