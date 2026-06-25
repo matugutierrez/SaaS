@@ -10,6 +10,9 @@ export default function ChatRoom({ roomId, roomName }) {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [forwardTarget, setForwardTarget] = useState(null);
+  const [availableRooms, setAvailableRooms] = useState([]);
+  const [forwarding, setForwarding] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -61,6 +64,27 @@ export default function ChatRoom({ roomId, roomName }) {
     setPage(next);
   };
 
+  const openForward = async (msg) => {
+    setForwardTarget(msg);
+    try {
+      const res = await api.get('/chat/rooms');
+      setAvailableRooms(res.data.rooms);
+    } catch {}
+  };
+
+  const doForward = async (targetRoom) => {
+    if (!forwardTarget) return;
+    setForwarding(true);
+    try {
+      await api.post('/chat/forward', { messageId: forwardTarget._id, targetRoomId: targetRoom._id });
+      setForwardTarget(null);
+    } catch (err) {
+      alert(err.response?.data?.error || 'Error forwarding message');
+    } finally {
+      setForwarding(false);
+    }
+  };
+
   if (!roomId) {
     return (
       <div className="flex-1 flex items-center justify-center bg-gray-50/50 dark:bg-gray-900/50">
@@ -104,7 +128,7 @@ export default function ChatRoom({ roomId, roomName }) {
                 <p className="text-gray-300 dark:text-gray-600 text-xs mt-1">Be the first to say something</p>
               </div>
             ) : (
-              messages.map((msg) => <Message key={msg._id} message={msg} onReply={() => {}} />)
+              messages.map((msg) => <Message key={msg._id} message={msg} onReply={() => {}} onForward={openForward} />)
             )}
             <div ref={bottomRef} />
           </>
@@ -113,6 +137,33 @@ export default function ChatRoom({ roomId, roomName }) {
       <div className="px-5 py-4 border-t border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900">
         <MessageInput onSend={handleSend} />
       </div>
+
+      {forwardTarget && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setForwardTarget(null)}>
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-5 animate-[slideUp_0.15s_ease-out]" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Forward message</h3>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">Select a channel to forward this message to</p>
+            <div className="space-y-1 max-h-60 overflow-y-auto">
+              {availableRooms.length === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-4">No channels available</p>
+              ) : availableRooms.map((room) => (
+                <button key={room._id} onClick={() => doForward(room)} disabled={forwarding}
+                  className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50 flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{room.name}</p>
+                    <p className="text-xs text-gray-400">{room.project?.name}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setForwardTarget(null)}
+              className="mt-3 w-full text-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -20,6 +20,7 @@ exports.getMessages = async (req, res) => {
       organization: req.organization._id,
     })
       .populate('sender', 'name email')
+      .populate('forwardedFrom', 'name')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
@@ -45,6 +46,34 @@ exports.sendMessage = async (req, res) => {
     });
     const populated = await ChatMessage.findById(message._id).populate('sender', 'name email');
     req.app.get('io').to(`room:${room._id}`).emit('chat:message', populated);
+    res.status(201).json({ message: populated });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.forwardMessage = async (req, res) => {
+  try {
+    const { messageId, targetRoomId } = req.body;
+    if (!messageId || !targetRoomId) return res.status(400).json({ error: 'messageId and targetRoomId required' });
+
+    const original = await ChatMessage.findOne({ _id: messageId, organization: req.organization._id })
+      .populate('sender', 'name');
+    if (!original) return res.status(404).json({ error: 'Original message not found' });
+
+    const targetRoom = await ChatRoom.findOne({ _id: targetRoomId, organization: req.organization._id });
+    if (!targetRoom) return res.status(404).json({ error: 'Target room not found' });
+
+    const forwarded = await ChatMessage.create({
+      room: targetRoom._id,
+      sender: req.user._id,
+      organization: req.organization._id,
+      content: `📨 Forwarded from ${original.sender?.name || 'Unknown'}:\n${original.content}`,
+      forwarded: true,
+      forwardedFrom: original.sender,
+    });
+    const populated = await ChatMessage.findById(forwarded._id).populate('sender', 'name email').populate('forwardedFrom', 'name');
+    req.app.get('io').to(`room:${targetRoom._id}`).emit('chat:message', populated);
     res.status(201).json({ message: populated });
   } catch (err) {
     res.status(500).json({ error: err.message });
