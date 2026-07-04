@@ -1,6 +1,7 @@
 const Project = require('../models/Project');
 const Board = require('../models/Board');
 const ChatRoom = require('../models/ChatRoom');
+const Task = require('../models/Task');
 
 exports.list = async (req, res) => {
   try {
@@ -94,6 +95,7 @@ exports.remove = async (req, res) => {
     if (!project) return res.status(404).json({ error: 'Project not found' });
     await Board.deleteMany({ project: project._id });
     await ChatRoom.deleteMany({ project: project._id });
+    await Task.deleteMany({ project: project._id });
     res.json({ message: 'Project deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });

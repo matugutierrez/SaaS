@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
+const STORAGE_KEY = 'dashboard_cleared_drafts';
+
 const statusColors = {
   'Backlog': { text: 'text-text-secondary', diamond: '#8a8577' },
   'To Do': { text: 'text-text-secondary', diamond: '#8a8577' },
@@ -44,7 +46,10 @@ export default function Dashboard() {
   const [showCreate, setShowCreate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [newProject, setNewProject] = useState({ name: '', key: '', description: '' });
-  const [clearedHistory, setClearedHistory] = useState(false);
+  const [clearedIds, setClearedIds] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+    catch { return new Set(); }
+  });
 
   useEffect(() => {
     Promise.all([
@@ -211,23 +216,28 @@ export default function Dashboard() {
                 <div className="px-6 py-4 border-b border-border-light flex items-center justify-between">
                   <h3 className="font-serif font-normal text-text">Draft History</h3>
                   <div className="flex items-center gap-3">
-                    {!clearedHistory && data.recent?.length > 0 && (
-                      <button onClick={() => setClearedHistory(true)}
+                    {data.recent?.some(t => !clearedIds.has(t._id)) && (
+                      <button onClick={() => {
+                        const allIds = (data.recent || []).map(t => t._id);
+                        const next = new Set([...clearedIds, ...allIds]);
+                        setClearedIds(next);
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]));
+                      }}
                         className="font-sans text-xs tracking-[0.15em] uppercase text-text-secondary hover:text-accent-terracotta transition">
                         Clear
                       </button>
                     )}
                     <span className="font-sans text-xs tracking-[0.15em] uppercase text-text-secondary">
-                      {clearedHistory ? '0' : data.recent?.length || 0} drafts
+                      {data.recent?.filter(t => !clearedIds.has(t._id)).length || 0} drafts
                     </span>
                   </div>
                 </div>
                 <div className="divide-y divide-border-light">
-                  {clearedHistory || data.recent?.length === 0 ? (
+                  {data.recent?.filter(t => !clearedIds.has(t._id)).length === 0 ? (
                     <p className="text-center text-text-secondary text-sm py-10">
-                      {clearedHistory ? 'History cleared' : 'No recent drafts'}
+                      {clearedIds.size > 0 ? 'History cleared' : 'No recent drafts'}
                     </p>
-                  ) : data.recent?.map((task) => {
+                  ) : data.recent?.filter(t => !clearedIds.has(t._id)).map((task) => {
                     const colors = statusColors[task.columnName] || statusColors['Backlog'];
                     const descSnippet = task.description
                       ? task.description.replace(/<[^>]*>/g, '').slice(0, 120).trim()
