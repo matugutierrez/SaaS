@@ -253,7 +253,7 @@ export default function Dashboard() {
                       <Link key={p._id} to={`/projects/${p._id}/board`}
                         className="flex items-center gap-2 p-2.5 transition">
                         <div className="w-8 h-8 bg-[#1a1f29] flex items-center justify-center text-text-secondary text-xs font-bold">
-                          {p.key}
+                          {p.key?.slice(0, 2)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-text truncate">{p.name}</p>

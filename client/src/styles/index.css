@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-page: #f5f3ef;
+  --color-panel: #ffffff;
+  --color-border: #ddd8d0;
+  --color-border-light: #e8e4dd;
+  --color-text: #1c1814;
+  --color-text-secondary: #8a8577;
+}
+
+.dark {
+  --color-page: #0e1116;
+  --color-panel: #12161d;
+  --color-border: #2a3140;
+  --color-border-light: #232a37;
+  --color-text: #ece9e2;
+  --color-text-secondary: #8a8577;
+}
+
 @layer base {
   html {
     font-family: Arial, sans-serif;
@@ -21,21 +39,14 @@
   }
 }
 
-.dark * {
-  scrollbar-color: #2a3140 transparent;
-}
-.dark *::-webkit-scrollbar-thumb { background: #2a3140; }
-.dark *::-webkit-scrollbar-thumb:hover { background: #3a4150; }
-
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2a3140 transparent;
 }
 
 *::-webkit-scrollbar { width: 6px; height: 6px; }
 *::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb { background: #2a3140; border-radius: 0; }
-*::-webkit-scrollbar-thumb:hover { background: #3a4150; }
+*::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 0; }
+*::-webkit-scrollbar-thumb:hover { background: var(--color-text-secondary); }
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
