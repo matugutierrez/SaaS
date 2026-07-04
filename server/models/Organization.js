@@ -7,6 +7,4 @@ const organizationSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-organizationSchema.index({ slug: 1 });
-
 module.exports = mongoose.model('Organization', organizationSchema);
