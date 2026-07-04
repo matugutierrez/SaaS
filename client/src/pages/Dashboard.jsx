@@ -44,6 +44,7 @@ export default function Dashboard() {
   const [showCreate, setShowCreate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [newProject, setNewProject] = useState({ name: '', key: '', description: '' });
+  const [clearedHistory, setClearedHistory] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -65,6 +66,18 @@ export default function Dashboard() {
       setNewProject({ name: '', key: '', description: '' });
     } catch (err) {
       alert(err.response?.data?.error || 'Error creating project');
+    }
+  };
+
+  const deleteProject = async (id, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!confirm('Delete this project permanently?')) return;
+    try {
+      await api.delete(`/projects/${id}`);
+      setProjects((prev) => prev.filter(p => p._id !== id));
+    } catch (err) {
+      alert(err.response?.data?.error || 'Error deleting project');
     }
   };
 
@@ -196,25 +209,45 @@ export default function Dashboard() {
 
               <div className="bg-panel border border-border">
                 <div className="px-6 py-4 border-b border-border-light flex items-center justify-between">
-                  <h3 className="font-serif font-normal text-text">Recent Activity</h3>
-                  <span className="font-sans text-xs tracking-[0.15em] uppercase text-text-secondary">{data.recent?.length || 0} items</span>
+                  <h3 className="font-serif font-normal text-text">Draft History</h3>
+                  <div className="flex items-center gap-3">
+                    {!clearedHistory && data.recent?.length > 0 && (
+                      <button onClick={() => setClearedHistory(true)}
+                        className="font-sans text-xs tracking-[0.15em] uppercase text-text-secondary hover:text-accent-terracotta transition">
+                        Clear
+                      </button>
+                    )}
+                    <span className="font-sans text-xs tracking-[0.15em] uppercase text-text-secondary">
+                      {clearedHistory ? '0' : data.recent?.length || 0} drafts
+                    </span>
+                  </div>
                 </div>
                 <div className="divide-y divide-border-light">
-                  {data.recent?.length === 0 ? (
-                    <p className="text-center text-text-secondary text-sm py-10">No recent activity</p>
+                  {clearedHistory || data.recent?.length === 0 ? (
+                    <p className="text-center text-text-secondary text-sm py-10">
+                      {clearedHistory ? 'History cleared' : 'No recent drafts'}
+                    </p>
                   ) : data.recent?.map((task) => {
                     const colors = statusColors[task.columnName] || statusColors['Backlog'];
+                    const descSnippet = task.description
+                      ? task.description.replace(/<[^>]*>/g, '').slice(0, 120).trim()
+                      : null;
                     return (
                       <Link key={task._id} to={`/tasks/${task._id}`}
-                        className="flex items-center gap-3 px-6 py-3.5 transition">
-                        <div className="w-2 h-2 rotate-45" style={{ backgroundColor: colors.diamond }} />
+                        className="group flex gap-3 px-6 py-4 transition">
+                        <div className="w-2 h-2 rotate-45 mt-1.5 shrink-0" style={{ backgroundColor: colors.diamond }} />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-accent-blue truncate">{task.title}</p>
-                          <p className="text-xs text-text-secondary mt-0.5">
-                            {task.assignee?.name || 'Unassigned'} · {new Date(task.updatedAt).toLocaleDateString()}
+                          <p className="text-sm font-medium text-accent-blue group-hover:underline truncate">{task.title}</p>
+                          {descSnippet && (
+                            <p className="text-xs text-text-secondary leading-relaxed mt-1 line-clamp-2">
+                              {descSnippet}{task.description.replace(/<[^>]*>/g, '').length > 120 ? '...' : ''}
+                            </p>
+                          )}
+                          <p className="text-xs text-text-secondary mt-1.5">
+                            {task.assignee?.name || 'Unassigned'} &middot; {new Date(task.updatedAt).toLocaleDateString()}
                           </p>
                         </div>
-                        <span className={`text-xs px-2 py-0.5 bg-muted border border-border-light ${colors.text}`}>{task.columnName}</span>
+                        <span className={`self-start text-xs px-2 py-0.5 bg-muted border border-border-light ${colors.text}`}>{task.columnName}</span>
                       </Link>
                     );
                   })}
@@ -250,16 +283,22 @@ export default function Dashboard() {
                     {projects.length === 0 ? (
                       <p className="text-sm text-text-secondary text-center py-4">No projects yet</p>
                     ) : projects.slice(0, 5).map(p => (
-                      <Link key={p._id} to={`/projects/${p._id}/board`}
-                        className="flex items-center gap-2 p-2.5 transition">
-                        <div className="w-8 h-8 bg-muted flex items-center justify-center text-text-secondary text-xs font-bold">
-                          {p.key?.slice(0, 2)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-text truncate">{p.name}</p>
-                          <p className="text-xs text-text-secondary">{p.lead?.name || 'No lead'}</p>
-                        </div>
-                      </Link>
+                      <div key={p._id} className="group flex items-center gap-2 p-2.5 transition">
+                        <Link to={`/projects/${p._id}/board`}
+                          className="flex items-center gap-2 flex-1 min-w-0">
+                          <div className="w-8 h-8 bg-muted flex items-center justify-center text-text-secondary text-xs font-bold">
+                            {p.key?.slice(0, 2)}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-text truncate">{p.name}</p>
+                            <p className="text-xs text-text-secondary">{p.lead?.name || 'No lead'}</p>
+                          </div>
+                        </Link>
+                        <button onClick={(e) => deleteProject(p._id, e)}
+                          className="opacity-0 group-hover:opacity-100 text-text-secondary hover:text-accent-terracotta transition text-xs px-1">
+                          &#x2715;
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>
