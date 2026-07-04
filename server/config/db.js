@@ -7,8 +7,6 @@ async function connectDB() {
   const conn = await mongoose.connect(MONGO_URI, {
     tls: true,
     tlsInsecure: true,
-    tlsAllowInvalidCertificates: true,
-    tlsAllowInvalidHostnames: true,
   });
   console.log('MongoDB connected:', conn.connection.host);
 
