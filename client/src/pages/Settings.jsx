@@ -76,7 +76,7 @@ export default function Settings() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <code className="bg-[#1a1f29] border border-border text-text text-xs tracking-widest font-mono px-5 py-3 flex-1 text-center">{inviteCode}</code>
+          <code className="bg-muted border border-border text-text text-xs tracking-widest font-mono px-5 py-3 flex-1 text-center">{inviteCode}</code>
           <button onClick={copyCode}
             className="bg-text text-page border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-3">
             Copy
@@ -101,9 +101,9 @@ export default function Settings() {
           {members.map((m) => {
             const badge = roleBadge[m.role] || roleBadge.member;
             return (
-              <div key={m._id} className="px-6 py-4 flex items-center justify-between hover:bg-[#1a1f29]">
+              <div key={m._id} className="px-6 py-4 flex items-center justify-between hover:bg-muted">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#1a1f29] flex items-center justify-center text-sm font-bold text-text-secondary">
+                  <div className="w-10 h-10 bg-muted flex items-center justify-center text-sm font-bold text-text-secondary">
                     {m.name[0]?.toUpperCase()}
                   </div>
                   <div>
@@ -138,7 +138,7 @@ export default function Settings() {
       </div>
 
       <Modal open={showTransfer} onClose={() => setShowTransfer(false)} title="Transfer Ownership">
-        <div className="px-6 py-4 bg-[#1a1f29] border border-border text-accent-ocre text-xs mb-4">
+        <div className="px-6 py-4 bg-muted border border-border text-accent-ocre text-xs mb-4">
           You will become <strong className="font-medium">Admin+</strong>. The selected member will become the new <strong className="font-medium">Owner</strong>.
         </div>
         <div className="space-y-4">

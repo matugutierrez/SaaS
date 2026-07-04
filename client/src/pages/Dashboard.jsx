@@ -214,7 +214,7 @@ export default function Dashboard() {
                             {task.assignee?.name || 'Unassigned'} · {new Date(task.updatedAt).toLocaleDateString()}
                           </p>
                         </div>
-                        <span className={`text-xs px-2 py-0.5 bg-[#1a1f29] border border-border-light ${colors.text}`}>{task.columnName}</span>
+                        <span className={`text-xs px-2 py-0.5 bg-muted border border-border-light ${colors.text}`}>{task.columnName}</span>
                       </Link>
                     );
                   })}
@@ -252,7 +252,7 @@ export default function Dashboard() {
                     ) : projects.slice(0, 5).map(p => (
                       <Link key={p._id} to={`/projects/${p._id}/board`}
                         className="flex items-center gap-2 p-2.5 transition">
-                        <div className="w-8 h-8 bg-[#1a1f29] flex items-center justify-center text-text-secondary text-xs font-bold">
+                        <div className="w-8 h-8 bg-muted flex items-center justify-center text-text-secondary text-xs font-bold">
                           {p.key?.slice(0, 2)}
                         </div>
                         <div className="flex-1 min-w-0">

@@ -59,14 +59,14 @@ export default function AuditLog() {
       <div className="bg-panel border border-border">
         {loading ? (
           <div className="space-y-2 p-6">
-            {[1,2,3,4,5].map(i => <div key={i} className="h-16 bg-[#1a1f29] animate-pulse" />)}
+            {[1,2,3,4,5].map(i => <div key={i} className="h-16 bg-muted animate-pulse" />)}
           </div>
         ) : (
           <>
             <div className="divide-y divide-border-light">
               {logs.length === 0 && (
                 <div className="text-center py-16">
-                  <div className="w-16 h-16 bg-[#1a1f29] flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-muted flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                   </div>
                   <p className="text-text-secondary text-xs">No audit logs found</p>
@@ -75,8 +75,8 @@ export default function AuditLog() {
               {logs.map((log) => {
                 const meta = actionMeta[log.action] || { color: 'text-text-secondary', label: log.action };
                 return (
-                  <div key={log._id} className="px-6 py-4 flex items-center gap-4 text-sm hover:bg-[#1a1f29]">
-                    <div className="w-9 h-9 bg-[#1a1f29] flex items-center justify-center text-sm font-medium text-text-secondary flex-shrink-0">
+                  <div key={log._id} className="px-6 py-4 flex items-center gap-4 text-sm hover:bg-muted">
+                    <div className="w-9 h-9 bg-muted flex items-center justify-center text-sm font-medium text-text-secondary flex-shrink-0">
                       {log.actor?.name?.[0]?.toUpperCase() || '?'}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -105,7 +105,7 @@ export default function AuditLog() {
                 <div className="flex gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                     <button key={p} onClick={() => setPage(p)}
-                      className={`w-8 h-8 text-xs font-medium ${p === page ? 'bg-text text-page' : 'text-text-secondary hover:bg-[#1a1f29]'}`}>
+                      className={`w-8 h-8 text-xs font-medium ${p === page ? 'bg-text text-page' : 'text-text-secondary hover:bg-muted'}`}>
                       {p}
                     </button>
                   ))}

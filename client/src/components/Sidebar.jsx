@@ -83,7 +83,7 @@ export default function Sidebar() {
           <div className="w-8 h-8 bg-accent-blue rounded-sm flex items-center justify-center text-page text-sm font-sans">F</div>
           <span className="text-base font-normal font-serif text-text">FlowSpace</span>
         </Link>
-        <button onClick={() => setExpanded(!expanded)} className="text-text-secondary hover:text-text p-1.5 rounded-sm hover:bg-[#1a1f29] transition-all">
+        <button onClick={() => setExpanded(!expanded)} className="text-text-secondary hover:text-text p-1.5 rounded-sm hover:bg-muted transition-all">
           <svg className="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={expanded ? 'M11 19l-7-7 7-7m8 14l-7-7 7-7' : 'M13 5l7 7-7 7M5 5l7 7-7 7'} />
           </svg>
@@ -94,7 +94,7 @@ export default function Sidebar() {
         {mainNav.map((item) => (
           item.path.startsWith('/') && !item.comingSoon ? (
             <NavLink key={item.path} to={item.path} end={item.end} className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans transition-all duration-150 group border-l-2 ${isActive ? 'bg-[#1a1f29] text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-[#1a1f29]'}`
+              `flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans transition-all duration-150 group border-l-2 ${isActive ? 'bg-muted text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-muted'}`
             }>
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} /></svg>
               {expanded && <span>{item.label}</span>}
@@ -103,14 +103,14 @@ export default function Sidebar() {
             <div key={item.path} className="flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans text-text-secondary cursor-not-allowed">
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} /></svg>
               <span className="flex-1">{item.label}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded-sm bg-[#1a1f29] text-text-secondary font-sans">soon</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-sm bg-muted text-text-secondary font-sans">soon</span>
             </div>
           ) : null
         ))}
 
         {canViewAudit && (
           <NavLink to="/audit" className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans transition-all duration-150 group border-l-2 ${isActive ? 'bg-[#1a1f29] text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-[#1a1f29]'}`
+            `flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans transition-all duration-150 group border-l-2 ${isActive ? 'bg-muted text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-muted'}`
           }>
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={iconPaths.audit} /></svg>
             {expanded && <span>Audit Log</span>}
@@ -118,7 +118,7 @@ export default function Sidebar() {
         )}
 
         <NavLink to="/settings" className={({ isActive }) =>
-          `flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans transition-all duration-150 group border-l-2 ${isActive ? 'bg-[#1a1f29] text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-[#1a1f29]'}`
+          `flex items-center gap-3 px-3 py-2.5 text-xs tracking-[0.15em] font-sans transition-all duration-150 group border-l-2 ${isActive ? 'bg-muted text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-muted'}`
         }>
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={iconPaths.settings} /></svg>
           {expanded && <span>Settings</span>}
@@ -140,9 +140,9 @@ export default function Sidebar() {
               <div key={p._id}>
                 <div className="flex items-center group">
                   <NavLink to={`/projects/${p._id}/board`} className={({ isActive }) =>
-                    `flex-1 flex items-center gap-3 px-3 py-2 rounded-sm text-sm transition-all duration-150 border-l-2 ${isActive ? 'bg-[#1a1f29] text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-[#1a1f29]'}`
+                    `flex-1 flex items-center gap-3 px-3 py-2 rounded-sm text-sm transition-all duration-150 border-l-2 ${isActive ? 'bg-muted text-text border-accent-blue' : 'border-transparent text-text-secondary hover:text-text hover:bg-muted'}`
                   }>
-                    <div className="w-6 h-6 rounded-sm bg-[#1a1f29] flex items-center justify-center text-[10px] font-bold text-text-secondary flex-shrink-0">
+                    <div className="w-6 h-6 rounded-sm bg-muted flex items-center justify-center text-[10px] font-bold text-text-secondary flex-shrink-0">
                       {p.key?.slice(0, 2)}
                     </div>
                     {expanded && <span className="truncate">{p.name}</span>}
@@ -150,16 +150,16 @@ export default function Sidebar() {
                   {expanded && (
                     <div className="relative pr-1">
                       <button onClick={(e) => { e.stopPropagation(); setMenuProject(menuProject === p._id ? null : p._id); }}
-                        className="opacity-0 group-hover:opacity-100 p-1 rounded-sm hover:bg-[#1a1f29] text-text-secondary hover:text-text transition-all">
+                        className="opacity-0 group-hover:opacity-100 p-1 rounded-sm hover:bg-muted text-text-secondary hover:text-text transition-all">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" /></svg>
                       </button>
                       {menuProject === p._id && (
                         <div ref={menuRef} className="absolute right-0 top-full mt-1 w-40 bg-panel border-border rounded-sm py-1 z-[99999]">
-                          <button onClick={() => openEdit(p)} className="w-full text-left px-3.5 py-2 text-xs font-sans text-text-secondary hover:text-text hover:bg-[#1a1f29] transition flex items-center gap-2">
+                          <button onClick={() => openEdit(p)} className="w-full text-left px-3.5 py-2 text-xs font-sans text-text-secondary hover:text-text hover:bg-muted transition flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                             Edit
                           </button>
-                          <button onClick={() => { setDeleteProject(p); setMenuProject(null); }} className="w-full text-left px-3.5 py-2 text-xs font-sans text-accent-terracotta hover:bg-[#1a1f29] transition flex items-center gap-2">
+                          <button onClick={() => { setDeleteProject(p); setMenuProject(null); }} className="w-full text-left px-3.5 py-2 text-xs font-sans text-accent-terracotta hover:bg-muted transition flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                             Delete
                           </button>
@@ -176,7 +176,7 @@ export default function Sidebar() {
                       { to: `/projects/${p._id}/wiki`, label: 'Wiki', icon: iconPaths.wiki },
                     ].map((link) => (
                       <NavLink key={link.to} to={link.to} className={({ isActive }) =>
-                        `flex items-center gap-2 py-1.5 px-2 rounded-sm text-xs transition ${isActive ? 'bg-[#1a1f29] text-text' : 'text-text-secondary hover:text-text'}`
+                        `flex items-center gap-2 py-1.5 px-2 rounded-sm text-xs transition ${isActive ? 'bg-muted text-text' : 'text-text-secondary hover:text-text'}`
                       }>
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} /></svg>
                         {link.label}
@@ -212,7 +212,7 @@ export default function Sidebar() {
           </div>
           <div className="flex gap-2 justify-end pt-2">
             <button type="button" onClick={() => setEditProject(null)}
-              className="px-5 py-2.5 text-xs font-sans text-text-secondary hover:bg-[#1a1f29] rounded-sm transition border border-border">Cancel</button>
+              className="px-5 py-2.5 text-xs font-sans text-text-secondary hover:bg-muted rounded-sm transition border border-border">Cancel</button>
             <button type="button" onClick={saveEdit}
               className="px-5 py-2.5 bg-text text-page text-xs font-sans rounded-sm hover:opacity-90 transition border border-border">Save</button>
           </div>
@@ -227,7 +227,7 @@ export default function Sidebar() {
           </p>
           <div className="flex gap-2 justify-end pt-2">
             <button type="button" onClick={() => setDeleteProject(null)}
-              className="px-5 py-2.5 text-xs font-sans text-text-secondary hover:bg-[#1a1f29] rounded-sm transition border border-border">Cancel</button>
+              className="px-5 py-2.5 text-xs font-sans text-text-secondary hover:bg-muted rounded-sm transition border border-border">Cancel</button>
             <button type="button" onClick={confirmDelete}
               className="px-5 py-2.5 bg-accent-terracotta text-page text-xs font-sans rounded-sm hover:opacity-90 transition border border-border">Delete</button>
           </div>

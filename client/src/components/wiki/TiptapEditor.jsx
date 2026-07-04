@@ -39,7 +39,7 @@ export default function TiptapEditor({ content, onChange }) {
     ];
 
     return (
-      <div className="flex flex-wrap gap-1 p-2 bg-[#1a1f29] border-b border-border-light">
+      <div className="flex flex-wrap gap-1 p-2 bg-muted border-b border-border-light">
         {items.map((item, i) => {
           if (item.type === 'divider') return <div key={i} className="w-px h-6 bg-border mx-1" />;
           return (
@@ -47,7 +47,7 @@ export default function TiptapEditor({ content, onChange }) {
               key={i}
               onClick={item.action}
               title={item.label}
-              className={`px-2 py-1 text-xs ${item.active ? 'bg-[#2a3140] text-text' : 'text-text-secondary hover:bg-[#232a37]'}`}
+              className={`px-2 py-1 text-xs ${item.active ? 'bg-border text-text' : 'text-text-secondary hover:bg-border-light'}`}
             >
               {item.icon}
             </button>

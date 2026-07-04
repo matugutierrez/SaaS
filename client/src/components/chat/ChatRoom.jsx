@@ -89,7 +89,7 @@ export default function ChatRoom({ roomId, roomName }) {
     return (
       <div className="flex-1 flex items-center justify-center bg-page">
         <div className="text-center">
-          <div className="w-16 h-16 bg-[#1a1f29] flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-muted flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
           </div>
           <p className="text-text-secondary text-sm">Select a channel to start chatting</p>
@@ -108,20 +108,20 @@ export default function ChatRoom({ roomId, roomName }) {
         {loading ? (
           <div className="space-y-4">
             {[1,2,3].map(i => <div key={i} className={`flex ${i % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
-              <div className={`h-12 ${i % 2 === 0 ? 'w-48' : 'w-36'} bg-[#1a1f29] animate-pulse`} />
+              <div className={`h-12 ${i % 2 === 0 ? 'w-48' : 'w-36'} bg-muted animate-pulse`} />
             </div>)}
           </div>
         ) : (
           <>
             {page < totalPages && (
               <button onClick={loadMore}
-                className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans w-full text-center py-3 mb-4 hover:bg-[#1a1f29]">
+                className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans w-full text-center py-3 mb-4 hover:bg-muted">
                 Load older messages
               </button>
             )}
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className="w-16 h-16 bg-[#1a1f29] flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-muted flex items-center justify-center mb-4">
                   <svg className="w-8 h-8 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 </div>
                 <p className="text-text-secondary text-sm">No messages yet</p>
@@ -148,7 +148,7 @@ export default function ChatRoom({ roomId, roomName }) {
                 <p className="text-xs text-text-secondary text-center py-4">No channels available</p>
               ) : availableRooms.map((room) => (
                 <button key={room._id} onClick={() => doForward(room)} disabled={forwarding}
-                  className="w-full text-left px-4 py-3 text-xs tracking-[0.1em] text-text-secondary hover:bg-[#1a1f29] hover:text-text disabled:opacity-50 flex items-center gap-3">
+                  className="w-full text-left px-4 py-3 text-xs tracking-[0.1em] text-text-secondary hover:bg-muted hover:text-text disabled:opacity-50 flex items-center gap-3">
                   <span className="w-2 h-2 rotate-45 bg-accent-blue flex-shrink-0" />
                   <div>
                     <p className="text-sm text-text">{room.name}</p>
@@ -158,7 +158,7 @@ export default function ChatRoom({ roomId, roomName }) {
               ))}
             </div>
             <button onClick={() => setForwardTarget(null)}
-              className="mt-3 w-full text-center text-xs tracking-[0.15em] uppercase font-sans text-text-secondary hover:text-text py-2 hover:bg-[#1a1f29]">
+              className="mt-3 w-full text-center text-xs tracking-[0.15em] uppercase font-sans text-text-secondary hover:text-text py-2 hover:bg-muted">
               Cancel
             </button>
           </div>

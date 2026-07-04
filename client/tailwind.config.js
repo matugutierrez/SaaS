@@ -27,6 +27,7 @@ export default {
         'border-light': 'var(--color-border-light)',
         text: 'var(--color-text)',
         'text-secondary': 'var(--color-text-secondary)',
+        muted: 'var(--color-muted)',
         accent: {
           blue: '#7d9bb8',
           ocre: '#c2a24b',

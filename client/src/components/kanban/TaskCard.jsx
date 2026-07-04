@@ -55,11 +55,11 @@ export default function TaskCard({ task, index, columns, onMoveTask }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {task.assignee ? (
-                <div className="w-6 h-6 bg-[#1a1f29] text-text-secondary flex items-center justify-center text-[10px] font-bold" title={task.assignee.name}>
+                <div className="w-6 h-6 bg-muted text-text-secondary flex items-center justify-center text-[10px] font-bold" title={task.assignee.name}>
                   {task.assignee.name[0]?.toUpperCase() || '?'}
                 </div>
               ) : (
-                <div className="w-6 h-6 bg-[#1a1f29] text-text-secondary flex items-center justify-center text-[10px] font-bold">?</div>
+                <div className="w-6 h-6 bg-muted text-text-secondary flex items-center justify-center text-[10px] font-bold">?</div>
               )}
               {task.dueDate && (
                 <span className={`text-[10px] ${new Date(task.dueDate) < new Date() ? 'text-accent-terracotta' : 'text-text-secondary'}`}>

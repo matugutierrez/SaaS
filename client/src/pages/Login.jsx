@@ -34,7 +34,7 @@ export default function Login() {
             <p className="text-text-secondary text-xs tracking-[0.15em] mt-1">Sign in to your account</p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <div className="bg-[#1a1f29] border border-accent-terracotta text-accent-terracotta text-xs px-4 py-2.5">{error}</div>}
+            {error && <div className="bg-muted border border-accent-terracotta text-accent-terracotta text-xs px-4 py-2.5">{error}</div>}
             <div>
               <label className="block text-text-secondary text-xs tracking-[0.22em] uppercase mb-1.5">Email</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@company.com"

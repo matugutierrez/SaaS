@@ -65,7 +65,7 @@ export default function Navbar() {
 
         <div className="relative">
           <button onClick={() => { setShowNotifs(!showNotifs); setShowUserMenu(false); }}
-            className="relative p-2 text-text-secondary hover:text-text hover:bg-[#1a1f29] rounded-sm transition-all">
+            className="relative p-2 text-text-secondary hover:text-text hover:bg-muted rounded-sm transition-all">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
@@ -82,7 +82,7 @@ export default function Navbar() {
                   <p className="text-center text-text-secondary text-xs py-10">No notifications</p>
                 ) : notifications.slice(0, 20).map((n) => (
                   <a key={n._id} href={n.link || '#'}
-                    className={`block px-5 py-3.5 text-xs hover:bg-[#1a1f29] transition ${!n.read ? 'bg-[#1a1f29]' : ''}`}>
+                    className={`block px-5 py-3.5 text-xs hover:bg-muted transition ${!n.read ? 'bg-muted' : ''}`}>
                     <p className="text-text">{n.message}</p>
                     <p className="text-xs text-text-secondary mt-1">{new Date(n.createdAt).toLocaleDateString()}</p>
                   </a>
@@ -94,7 +94,7 @@ export default function Navbar() {
 
         <div className="relative">
           <button onClick={() => { setShowUserMenu(!showUserMenu); setShowNotifs(false); }}
-            className="flex items-center gap-2.5 hover:bg-[#1a1f29] rounded-sm px-3 py-1.5 transition-all">
+            className="flex items-center gap-2.5 hover:bg-muted rounded-sm px-3 py-1.5 transition-all">
             <div className="w-8 h-8 bg-accent-blue text-page rounded-sm flex items-center justify-center text-sm font-sans">
               {user?.name?.[0]?.toUpperCase() || '?'}
             </div>
@@ -112,7 +112,7 @@ export default function Navbar() {
                 <p className="text-xs text-text-secondary">{user?.email}</p>
               </div>
               <button onClick={logout}
-                className="w-full text-left px-5 py-2.5 text-xs text-accent-terracotta hover:bg-[#1a1f29] transition font-sans flex items-center gap-2">
+                className="w-full text-left px-5 py-2.5 text-xs text-accent-terracotta hover:bg-muted transition font-sans flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                 Sign out
               </button>

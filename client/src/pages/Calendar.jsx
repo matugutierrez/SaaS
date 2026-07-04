@@ -132,7 +132,7 @@ export default function Calendar() {
               <div key={i}
                 onClick={() => isCurrentMonth && setShowAdd(date.toISOString())}
                 className={`min-h-[120px] border-b border-r border-border-light p-2 cursor-pointer ${
-                  isToday ? 'bg-[#1a1f29]' : ''
+                  isToday ? 'bg-muted' : ''
                 } ${!isCurrentMonth ? '' : ''}`}>
                 <span className={`text-xs ${isToday ? 'text-text' : isCurrentMonth ? 'text-text-secondary' : 'text-text-secondary opacity-30'}`}>
                   {isCurrentMonth ? dayNum : ''}

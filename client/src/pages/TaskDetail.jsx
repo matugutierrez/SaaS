@@ -95,7 +95,7 @@ export default function TaskDetail() {
       <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
     </div>
   );
-  if (!task) return <p className="text-center text-gray-400 py-12">Task not found</p>;
+  if (!task) return <p className="text-center text-text-secondary py-12">Task not found</p>;
 
   return (
     <div className="max-w-4xl mx-auto space-y-4">

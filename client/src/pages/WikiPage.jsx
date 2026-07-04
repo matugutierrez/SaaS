@@ -68,7 +68,7 @@ export default function WikiPage() {
             {versions.length === 0 && <p className="text-center text-text-secondary text-sm py-6">No previous versions</p>}
             {versions.map((v) => (
               <div key={v._id} className="px-5 py-3 flex items-center justify-between text-sm">
-                <span className="bg-[#1a1f29] text-text-secondary px-2 py-0.5 font-mono text-xs">v{v.version}</span>
+                <span className="bg-muted text-text-secondary px-2 py-0.5 font-mono text-xs">v{v.version}</span>
                 <span className="text-text font-medium">{v.updatedBy?.name}</span>
                 <span className="text-text-secondary text-xs">{new Date(v.createdAt).toLocaleDateString()}</span>
               </div>

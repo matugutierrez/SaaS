@@ -37,7 +37,7 @@ export default function Register() {
             <p className="text-text-secondary text-xs tracking-[0.15em] mt-1">First user = Owner · With invite code = Member</p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <div className="bg-[#1a1f29] border border-accent-terracotta text-accent-terracotta text-xs px-4 py-2.5">{error}</div>}
+            {error && <div className="bg-muted border border-accent-terracotta text-accent-terracotta text-xs px-4 py-2.5">{error}</div>}
             <div>
               <label className="block text-text-secondary text-xs tracking-[0.22em] uppercase mb-1.5">Name</label>
               <input name="name" value={form.name} onChange={handleChange} required placeholder="John Doe"

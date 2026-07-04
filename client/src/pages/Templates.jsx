@@ -100,10 +100,10 @@ export default function Templates() {
             <p className="text-text-secondary text-xs mb-3">{t.description}</p>
             <div className="flex flex-wrap gap-1">
               {t.columns.map((c, j) => (
-                <span key={j} className="text-[10px] px-2 py-0.5 bg-[#1a1f29] text-text-secondary">{c}</span>
+                <span key={j} className="text-[10px] px-2 py-0.5 bg-muted text-text-secondary">{c}</span>
               ))}
               {t.columns.length === 0 && (
-                <span className="text-[10px] px-2 py-0.5 bg-[#1a1f29] text-text-secondary">Default</span>
+                <span className="text-[10px] px-2 py-0.5 bg-muted text-text-secondary">Default</span>
               )}
             </div>
           </button>
@@ -127,7 +127,7 @@ export default function Templates() {
               <label className="block text-xs tracking-[0.15em] uppercase font-sans text-text-secondary mb-2">Columns ({selected.columns.length})</label>
               <div className="flex flex-wrap gap-1.5">
                 {selected.columns.map((c, j) => (
-                  <span key={j} className="text-xs px-2.5 py-1 bg-[#1a1f29] text-text-secondary">{c}</span>
+                  <span key={j} className="text-xs px-2.5 py-1 bg-muted text-text-secondary">{c}</span>
                 ))}
               </div>
             </div>

@@ -26,15 +26,15 @@ export default function Chat() {
         </div>
         <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
           {loading ? (
-            [1,2,3].map(i => <div key={i} className="h-10 bg-[#1a1f29] animate-pulse" />)
+            [1,2,3].map(i => <div key={i} className="h-10 bg-muted animate-pulse" />)
           ) : rooms.length === 0 ? (
             <p className="text-xs text-text-secondary text-center py-8">No channels available</p>
           ) : rooms.map((room) => (
             <button key={room._id} onClick={() => setActiveRoom(room)}
               className={`w-full text-left px-4 py-2.5 text-xs tracking-[0.1em] flex items-center gap-2.5 ${
                 activeRoom?._id === room._id
-                  ? 'bg-[#1a1f29] text-text border-l-2 border-accent-blue'
-                  : 'text-text-secondary hover:bg-[#1a1f29] hover:text-text'
+                  ? 'bg-muted text-text border-l-2 border-accent-blue'
+                  : 'text-text-secondary hover:bg-muted hover:text-text'
               }`}>
               <span className={`w-2 h-2 rotate-45 ${activeRoom?._id === room._id ? 'bg-accent-blue' : 'bg-border'}`} />
               # {room.name}

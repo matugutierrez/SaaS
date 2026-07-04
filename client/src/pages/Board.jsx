@@ -36,7 +36,7 @@ export default function Board() {
       if (!el) return;
       const fn = add ? 'add' : 'remove';
       el.classList[fn]('ring-2', 'ring-primary-400', 'ring-inset');
-      el.querySelector('.board-droppable')?.classList[fn]('bg-[#1a1f29]/50');
+      el.querySelector('.board-droppable')?.classList[fn]('bg-muted/50');
     };
     toggle(hoveredColRef.current, false);
     toggle(name, true);
@@ -216,7 +216,7 @@ export default function Board() {
 
   if (loading) return (
     <div className="flex gap-4 h-full overflow-x-auto pb-4">
-      {[1,2,3].map(i => <div key={i} className="w-72 bg-panel border border-border p-3 animate-pulse flex-shrink-0"><div className="h-8 bg-[#1a1f29] mb-3" />{[1,2,3].map(j => <div key={j} className="h-28 bg-[#1a1f29] mb-2" />)}</div>)}
+      {[1,2,3].map(i => <div key={i} className="w-72 bg-panel border border-border p-3 animate-pulse flex-shrink-0"><div className="h-8 bg-muted mb-3" />{[1,2,3].map(j => <div key={j} className="h-28 bg-muted mb-2" />)}</div>)}
     </div>
   );
 
