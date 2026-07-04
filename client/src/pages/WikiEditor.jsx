@@ -43,8 +43,8 @@ export default function WikiEditor() {
 
   if (fetching) return (
     <div className="max-w-4xl mx-auto space-y-4">
-      <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded-xl animate-pulse w-1/3" />
-      <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
+      <div className="h-12 bg-gray-200 dark:bg-gray-800 animate-pulse w-1/3" />
+      <div className="h-96 bg-gray-200 dark:bg-gray-800 animate-pulse" />
     </div>
   );
 
@@ -52,26 +52,26 @@ export default function WikiEditor() {
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center gap-3 mb-5">
         <Link to={`/projects/${projectId}/wiki`}
-          className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition text-sm">&larr;</Link>
-        <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">{docId ? 'Edit Page' : 'New Page'}</h1>
+          className="text-text-secondary hover:text-text p-1.5 transition text-sm">&larr;</Link>
+        <h1 className="font-serif font-normal text-text">{docId ? 'Edit Page' : 'New Page'}</h1>
       </div>
 
       <form onSubmit={handleSave}>
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden mb-4">
-          <div className="px-6 py-4 border-b border-gray-50 dark:border-gray-800">
+        <div className="bg-panel border border-border overflow-hidden mb-4">
+          <div className="px-6 py-4 border-b border-border-light">
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Page title..." required
-              className="w-full text-2xl font-bold outline-none placeholder-gray-300 dark:placeholder-gray-600 text-gray-800 dark:text-gray-100 bg-transparent" />
+              className="w-full bg-transparent text-text font-serif text-2xl outline-none placeholder-gray-300 dark:placeholder-gray-600" />
           </div>
           <TiptapEditor content={content} onChange={setContent} />
         </div>
 
         <div className="flex gap-2 justify-end">
           <Link to={`/projects/${projectId}/wiki`}
-            className="px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">
+            className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-2.5">
             Cancel
           </Link>
           <button type="submit" disabled={loading || !title.trim()}
-            className="px-6 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-medium hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95 disabled:opacity-50">
+            className="bg-text text-page border border-border text-xs tracking-[0.15em] uppercase font-sans px-6 py-2.5 disabled:opacity-50">
             {loading ? 'Saving...' : 'Save'}
           </button>
         </div>

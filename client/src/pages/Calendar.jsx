@@ -88,9 +88,9 @@ export default function Calendar() {
 
   if (loading) return (
     <div className="space-y-4">
-      <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded-xl animate-pulse w-48" />
+      <div className="h-10 bg-panel border border-border animate-pulse w-48" />
       <div className="grid grid-cols-7 gap-2">
-        {Array.from({ length: 35 }).map((_, i) => <div key={i} className="h-28 bg-gray-200 dark:bg-gray-800 rounded-xl animate-pulse" />)}
+        {Array.from({ length: 35 }).map((_, i) => <div key={i} className="h-28 bg-panel border border-border animate-pulse" />)}
       </div>
     </div>
   );
@@ -98,24 +98,24 @@ export default function Calendar() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Calendar</h1>
+        <h1 className="font-serif font-normal text-text text-2xl">Calendar</h1>
         <div className="flex items-center gap-3">
-          <button onClick={prevMonth} className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">
+          <button onClick={prevMonth} className="bg-transparent text-text-secondary border border-border p-2 hover:text-text">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <span className="text-lg font-semibold text-gray-800 dark:text-gray-100 w-48 text-center">{MONTHS[currentMonth]} {currentYear}</span>
-          <button onClick={nextMonth} className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">
+          <span className="font-serif text-text w-48 text-center">{MONTHS[currentMonth]} {currentYear}</span>
+          <button onClick={nextMonth} className="bg-transparent text-text-secondary border border-border p-2 hover:text-text">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
           <button onClick={() => { setCurrentMonth(today.getMonth()); setCurrentYear(today.getFullYear()); }}
-            className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 rounded-lg transition">Today</button>
+            className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-3 py-1.5 hover:text-text">Today</button>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
-        <div className="grid grid-cols-7 border-b border-gray-50 dark:border-gray-800">
+      <div className="bg-panel border border-border">
+        <div className="grid grid-cols-7 border-b border-border-light">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} className="px-3 py-2.5 text-xs font-semibold text-gray-500 dark:text-gray-400 text-center">{d}</div>
+            <div key={d} className="px-3 py-2.5 text-xs tracking-[0.15em] uppercase text-text-secondary text-center">{d}</div>
           ))}
         </div>
         <div className="grid grid-cols-7">
@@ -131,28 +131,28 @@ export default function Calendar() {
             return (
               <div key={i}
                 onClick={() => isCurrentMonth && setShowAdd(date.toISOString())}
-                className={`min-h-[120px] border-b border-r border-gray-50 dark:border-gray-800 p-2 transition cursor-pointer ${
-                  isToday ? 'bg-primary-50/50 dark:bg-primary-900/10' : ''
-                } ${!isCurrentMonth ? 'bg-gray-50/50 dark:bg-gray-950/50' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
-                <span className={`text-xs font-medium ${isToday ? 'text-primary-600 dark:text-primary-400' : isCurrentMonth ? 'text-gray-500 dark:text-gray-400' : 'text-gray-300 dark:text-gray-700'}`}>
+                className={`min-h-[120px] border-b border-r border-border-light p-2 cursor-pointer ${
+                  isToday ? 'bg-[#1a1f29]' : ''
+                } ${!isCurrentMonth ? '' : ''}`}>
+                <span className={`text-xs ${isToday ? 'text-text' : isCurrentMonth ? 'text-text-secondary' : 'text-text-secondary opacity-30'}`}>
                   {isCurrentMonth ? dayNum : ''}
                 </span>
                 <div className="mt-1 space-y-0.5">
                   {dayEvents.map(e => (
                     <div key={e._id} onClick={(ev) => { ev.stopPropagation(); setShowDetail(e); }}
-                      className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded truncate text-white cursor-pointer hover:opacity-80 transition"
-                      style={{ backgroundColor: e.color || '#3b82f6' }}>
+                      className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 truncate text-text-secondary cursor-pointer border-l-2 hover:opacity-80"
+                      style={{ borderLeftColor: e.color || '#7d9bb8' }}>
                       <span className="truncate">{e.title}</span>
                     </div>
                   ))}
                   {dayTasks.slice(0, 2 - dayEvents.length).map(t => (
                     <a key={t._id} href={`/tasks/${t._id}`} onClick={(ev) => ev.stopPropagation()}
-                      className="block text-[10px] px-1.5 py-0.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded truncate hover:bg-primary-200 dark:hover:bg-primary-900/50 transition">
+                      className="block text-[10px] px-1.5 py-0.5 text-accent-blue truncate">
                       {t.title}
                     </a>
                   ))}
                   {(dayTasks.length + dayEvents.length) > 3 && (
-                    <span className="text-[10px] text-gray-400 px-1">+{dayTasks.length + dayEvents.length - 3} more</span>
+                    <span className="text-text-secondary text-[10px] px-1">+{dayTasks.length + dayEvents.length - 3} more</span>
                   )}
                 </div>
               </div>
@@ -164,30 +164,30 @@ export default function Calendar() {
       <Modal open={!!showAdd} onClose={() => setShowAdd(null)} title={`Add Event — ${showAdd ? new Date(showAdd).toLocaleDateString() : ''}`}>
         <form onSubmit={addEvent} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+            <label className="block text-xs tracking-[0.15em] uppercase font-sans text-text-secondary mb-1">Title</label>
             <input value={newEvent.title} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} required placeholder="Event title..."
-              className="w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition" />
+              className="w-full px-3.5 py-2.5 border border-border bg-panel text-text text-sm outline-none" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+            <label className="block text-xs tracking-[0.15em] uppercase font-sans text-text-secondary mb-1">Description</label>
             <textarea value={newEvent.description} onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })} rows={2}
-              className="w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none" />
+              className="w-full px-3.5 py-2.5 border border-border bg-panel text-text text-sm outline-none resize-none" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Color</label>
+            <label className="block text-xs tracking-[0.15em] uppercase font-sans text-text-secondary mb-1">Color</label>
             <div className="flex gap-2">
               {['#3b82f6', '#ef4444', '#22c55e', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'].map(c => (
                 <button key={c} type="button" onClick={() => setNewEvent({ ...newEvent, color: c })}
-                  className={`w-8 h-8 rounded-xl transition-all ${newEvent.color === c ? 'ring-2 ring-offset-2 ring-gray-400 dark:ring-offset-gray-900 scale-110' : ''}`}
+                  className={`w-8 h-8 border border-border ${newEvent.color === c ? 'ring-1 ring-text' : ''}`}
                   style={{ backgroundColor: c }} />
               ))}
             </div>
           </div>
           <div className="flex gap-2 justify-end pt-2">
             <button type="button" onClick={() => setShowAdd(null)}
-              className="px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">Cancel</button>
+              className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-2.5 hover:text-text">Cancel</button>
             <button type="submit"
-              className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95">
+              className="bg-text text-page border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-2.5">
               Add Event
             </button>
           </div>
@@ -197,18 +197,18 @@ export default function Calendar() {
       <Modal open={!!showDetail} onClose={() => setShowDetail(null)} title={showDetail?.title || ''}>
         {showDetail && (
           <div className="space-y-4">
-            {showDetail.description && <p className="text-sm text-gray-600 dark:text-gray-400">{showDetail.description}</p>}
-            <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: showDetail.color }} />
+            {showDetail.description && <p className="text-sm text-text-secondary">{showDetail.description}</p>}
+            <div className="flex items-center gap-3 text-sm text-text-secondary">
+              <span className="w-3 h-3 border border-border" style={{ backgroundColor: showDetail.color }} />
               <span>{new Date(showDetail.date).toLocaleDateString()}</span>
               <span>·</span>
               <span>{showDetail.createdBy?.name}</span>
             </div>
             <div className="flex gap-2 justify-end pt-2">
               <button onClick={() => deleteEvent(showDetail._id)}
-                className="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition">Delete</button>
+                className="text-accent-terracotta border border-border text-xs tracking-[0.15em] uppercase font-sans px-4 py-2 hover:opacity-80">Delete</button>
               <button onClick={() => setShowDetail(null)}
-                className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">Close</button>
+                className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-4 py-2 hover:text-text">Close</button>
             </div>
           </div>
         )}

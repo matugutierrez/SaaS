@@ -4,11 +4,34 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['Georgia', 'Times New Roman', 'serif'],
+        sans: ['Arial', 'sans-serif'],
+      },
       colors: {
         primary: {
-          50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
-          300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
-          600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a',
+          50: '#f0f3f7',
+          100: '#dce4ed',
+          200: '#bcc9d9',
+          300: '#94a9c2',
+          400: '#7d9bb8',
+          500: '#6a8aaa',
+          600: '#5a7799',
+          700: '#4d657f',
+          800: '#435468',
+          900: '#3a4758',
+        },
+        page: '#0e1116',
+        panel: '#12161d',
+        border: '#2a3140',
+        'border-light': '#232a37',
+        text: '#ece9e2',
+        'text-secondary': '#8a8577',
+        accent: {
+          blue: '#7d9bb8',
+          ocre: '#c2a24b',
+          sage: '#8fae8b',
+          terracotta: '#b87d6e',
         },
       },
     },

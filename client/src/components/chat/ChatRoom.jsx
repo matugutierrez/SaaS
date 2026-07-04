@@ -87,45 +87,45 @@ export default function ChatRoom({ roomId, roomName }) {
 
   if (!roomId) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-gray-50/50 dark:bg-gray-900/50">
+      <div className="flex-1 flex items-center justify-center bg-page">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+          <div className="w-16 h-16 bg-[#1a1f29] flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
           </div>
-          <p className="text-gray-400 dark:text-gray-500 text-sm">Select a channel to start chatting</p>
+          <p className="text-text-secondary text-sm">Select a channel to start chatting</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900">
-      <div className="px-5 py-3.5 border-b border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900 flex items-center gap-3">
-        <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-        <h3 className="font-semibold text-sm text-gray-800 dark:text-gray-200">#{roomName}</h3>
+    <div className="flex-1 flex flex-col bg-panel">
+      <div className="px-5 py-3.5 border-b border-border-light bg-panel flex items-center gap-3">
+        <div className="w-2.5 h-2.5 bg-accent-sage" />
+        <h3 className="font-serif text-text">#{roomName}</h3>
       </div>
-      <div className="flex-1 overflow-y-auto px-5 py-4 bg-gray-50/30 dark:bg-gray-950/30">
+      <div className="flex-1 overflow-y-auto px-5 py-4 bg-page">
         {loading ? (
           <div className="space-y-4">
             {[1,2,3].map(i => <div key={i} className={`flex ${i % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
-              <div className={`h-12 ${i % 2 === 0 ? 'w-48' : 'w-36'} bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse`} />
+              <div className={`h-12 ${i % 2 === 0 ? 'w-48' : 'w-36'} bg-[#1a1f29] animate-pulse`} />
             </div>)}
           </div>
         ) : (
           <>
             {page < totalPages && (
               <button onClick={loadMore}
-                className="text-xs text-primary-600 font-medium hover:underline w-full text-center py-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm mb-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans w-full text-center py-3 mb-4 hover:bg-[#1a1f29]">
                 Load older messages
               </button>
             )}
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                <div className="w-16 h-16 bg-[#1a1f29] flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 </div>
-                <p className="text-gray-400 dark:text-gray-500 text-sm">No messages yet</p>
-                <p className="text-gray-300 dark:text-gray-600 text-xs mt-1">Be the first to say something</p>
+                <p className="text-text-secondary text-sm">No messages yet</p>
+                <p className="text-text-secondary text-xs mt-1">Be the first to say something</p>
               </div>
             ) : (
               messages.map((msg) => <Message key={msg._id} message={msg} onReply={() => {}} onForward={openForward} />)
@@ -134,31 +134,31 @@ export default function ChatRoom({ roomId, roomName }) {
           </>
         )}
       </div>
-      <div className="px-5 py-4 border-t border-gray-50 dark:border-gray-800 bg-white dark:bg-gray-900">
+      <div className="px-5 py-4 border-t border-border-light bg-panel">
         <MessageInput onSend={handleSend} />
       </div>
 
       {forwardTarget && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setForwardTarget(null)}>
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-5 animate-[slideUp_0.15s_ease-out]" onClick={(e) => e.stopPropagation()}>
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Forward message</h3>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">Select a channel to forward this message to</p>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setForwardTarget(null)}>
+          <div className="bg-panel border border-border w-full max-w-sm mx-4 p-5 animate-[slideUp_0.15s_ease-out]" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-serif text-text mb-1">Forward message</h3>
+            <p className="text-xs text-text-secondary mb-4">Select a channel to forward this message to</p>
             <div className="space-y-1 max-h-60 overflow-y-auto">
               {availableRooms.length === 0 ? (
-                <p className="text-sm text-gray-400 text-center py-4">No channels available</p>
+                <p className="text-xs text-text-secondary text-center py-4">No channels available</p>
               ) : availableRooms.map((room) => (
                 <button key={room._id} onClick={() => doForward(room)} disabled={forwarding}
-                  className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50 flex items-center gap-3">
-                  <span className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0" />
+                  className="w-full text-left px-4 py-3 text-xs tracking-[0.1em] text-text-secondary hover:bg-[#1a1f29] hover:text-text disabled:opacity-50 flex items-center gap-3">
+                  <span className="w-2 h-2 rotate-45 bg-accent-blue flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{room.name}</p>
-                    <p className="text-xs text-gray-400">{room.project?.name}</p>
+                    <p className="text-sm text-text">{room.name}</p>
+                    <p className="text-xs text-text-secondary">{room.project?.name}</p>
                   </div>
                 </button>
               ))}
             </div>
             <button onClick={() => setForwardTarget(null)}
-              className="mt-3 w-full text-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+              className="mt-3 w-full text-center text-xs tracking-[0.15em] uppercase font-sans text-text-secondary hover:text-text py-2 hover:bg-[#1a1f29]">
               Cancel
             </button>
           </div>

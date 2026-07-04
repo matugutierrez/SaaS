@@ -1,14 +1,14 @@
 export default function Input({ label, error, className = '', ...props }) {
   return (
     <div className={className}>
-      {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
+      {label && <label className="block text-text-secondary text-xs tracking-[0.15em] uppercase mb-1">{label}</label>}
       <input
-        className={`w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition ${
-          error ? 'border-red-400' : 'border-gray-300'
+        className={`w-full px-3 py-2 bg-transparent border text-text text-xs outline-none transition ${
+          error ? 'border-accent-terracotta' : 'border-border focus:border-text'
         }`}
         {...props}
       />
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-accent-terracotta text-xs mt-1">{error}</p>}
     </div>
   );
 }

@@ -38,20 +38,20 @@ export default function Navbar() {
   };
 
   const roleBadge = {
-    owner: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300',
-    admin_plus: 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
-    admin: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
-    member: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
+    owner: 'bg-accent-ocre text-page',
+    admin_plus: 'bg-accent-sage text-page',
+    admin: 'bg-accent-blue text-page',
+    member: 'bg-panel text-text-secondary border border-border-light',
   };
 
   return (
-    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-100 dark:border-gray-800 px-6 py-2.5 flex items-center justify-between sticky top-0 z-40 transition-colors duration-200">
+    <header className="bg-panel border-b border-border px-6 py-2.5 flex items-center justify-between sticky top-0 z-40">
       <div className="flex items-center gap-3">
-        <span className="text-sm text-gray-500 dark:text-gray-400">{user?.organization?.name}</span>
+        <span className="text-xs text-text-secondary">{user?.organization?.name}</span>
       </div>
       <div className="flex items-center gap-1">
-        <button onClick={toggle} title={dark ? 'Modo día' : 'Modo noche'}
-          className="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
+        <button onClick={toggle} title={dark ? 'Modo dia' : 'Modo noche'}
+          className="w-9 h-9 flex items-center justify-center rounded-sm border border-border bg-panel text-text-secondary hover:text-text transition-all">
           {dark ? (
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -65,26 +65,26 @@ export default function Navbar() {
 
         <div className="relative">
           <button onClick={() => { setShowNotifs(!showNotifs); setShowUserMenu(false); }}
-            className="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all">
+            className="relative p-2 text-text-secondary hover:text-text hover:bg-[#1a1f29] rounded-sm transition-all">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
-            {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-gradient-to-br from-rose-500 to-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg shadow-red-200 dark:shadow-red-900/50">{unread}</span>}
+            {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-accent-terracotta text-page text-[10px] font-sans font-bold rounded-full w-5 h-5 flex items-center justify-center">{unread}</span>}
           </button>
           {showNotifs && (
-            <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 z-50 overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-50 dark:border-gray-800">
-                <span className="font-semibold text-sm text-gray-800 dark:text-gray-100">Notifications</span>
-                {unread > 0 && <button onClick={markAllRead} className="text-xs text-primary-600 font-medium hover:underline">Mark all read</button>}
+            <div className="absolute right-0 mt-2 w-80 bg-panel border-border z-50 overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-3.5 border-b border-border-light">
+                <span className="font-serif text-sm text-text">Notifications</span>
+                {unread > 0 && <button onClick={markAllRead} className="text-xs text-accent-blue hover:underline">Mark all read</button>}
               </div>
-              <div className="max-h-80 overflow-y-auto divide-y divide-gray-50 dark:divide-gray-800">
+              <div className="max-h-80 overflow-y-auto divide-y divide-border-light">
                 {notifications.length === 0 ? (
-                  <p className="text-center text-gray-400 text-sm py-10">No notifications</p>
+                  <p className="text-center text-text-secondary text-xs py-10">No notifications</p>
                 ) : notifications.slice(0, 20).map((n) => (
                   <a key={n._id} href={n.link || '#'}
-                    className={`block px-5 py-3.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800/50 transition ${!n.read ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}>
-                    <p className="text-gray-800 dark:text-gray-200">{n.message}</p>
-                    <p className="text-xs text-gray-400 mt-1">{new Date(n.createdAt).toLocaleDateString()}</p>
+                    className={`block px-5 py-3.5 text-xs hover:bg-[#1a1f29] transition ${!n.read ? 'bg-[#1a1f29]' : ''}`}>
+                    <p className="text-text">{n.message}</p>
+                    <p className="text-xs text-text-secondary mt-1">{new Date(n.createdAt).toLocaleDateString()}</p>
                   </a>
                 ))}
               </div>
@@ -94,25 +94,25 @@ export default function Navbar() {
 
         <div className="relative">
           <button onClick={() => { setShowUserMenu(!showUserMenu); setShowNotifs(false); }}
-            className="flex items-center gap-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl px-3 py-1.5 transition-all">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 text-white rounded-xl flex items-center justify-center text-sm font-medium shadow-sm">
+            className="flex items-center gap-2.5 hover:bg-[#1a1f29] rounded-sm px-3 py-1.5 transition-all">
+            <div className="w-8 h-8 bg-accent-blue text-page rounded-sm flex items-center justify-center text-sm font-sans">
               {user?.name?.[0]?.toUpperCase() || '?'}
             </div>
             <div className="text-left hidden sm:block">
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{user?.name}</p>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${roleBadge[user?.role] || 'bg-gray-100 text-gray-600'}`}>
+              <p className="text-xs font-sans text-text">{user?.name}</p>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-sm font-sans ${roleBadge[user?.role] || 'bg-panel text-text-secondary border border-border-light'}`}>
                 {user?.role === 'admin_plus' ? 'Admin+' : user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
               </span>
             </div>
           </button>
           {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 z-50 py-2 overflow-hidden">
-              <div className="px-5 py-3 border-b border-gray-50 dark:border-gray-800">
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{user?.name}</p>
-                <p className="text-xs text-gray-400">{user?.email}</p>
+            <div className="absolute right-0 mt-2 w-56 bg-panel border-border z-50 py-2">
+              <div className="px-5 py-3 border-b border-border-light">
+                <p className="text-sm font-serif text-text">{user?.name}</p>
+                <p className="text-xs text-text-secondary">{user?.email}</p>
               </div>
               <button onClick={logout}
-                className="w-full text-left px-5 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition font-medium flex items-center gap-2">
+                className="w-full text-left px-5 py-2.5 text-xs text-accent-terracotta hover:bg-[#1a1f29] transition font-sans flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                 Sign out
               </button>

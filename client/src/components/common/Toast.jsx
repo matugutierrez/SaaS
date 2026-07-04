@@ -14,9 +14,9 @@ export function ToastProvider({ children }) {
   }, []);
 
   const colors = {
-    info: 'bg-blue-500',
-    success: 'bg-green-500',
-    error: 'bg-red-500',
+    info: 'bg-accent-blue',
+    success: 'bg-accent-sage',
+    error: 'bg-accent-terracotta',
   };
 
   return (
@@ -24,7 +24,7 @@ export function ToastProvider({ children }) {
       {children}
       <div className="fixed bottom-4 right-4 z-50 space-y-2">
         {toasts.map((t) => (
-          <div key={t.id} className={`${colors[t.type]} text-white px-4 py-2 rounded-lg shadow-lg text-sm animate-slide-up`}>
+          <div key={t.id} className={`${colors[t.type]} text-page text-xs tracking-[0.1em] uppercase px-4 py-2 animate-slide-up`}>
             {t.message}
           </div>
         ))}

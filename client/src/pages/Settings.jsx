@@ -54,86 +54,79 @@ export default function Settings() {
   };
 
   const roleBadge = {
-    owner: { bg: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400', label: 'Owner' },
-    admin_plus: { bg: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400', label: 'Admin+' },
-    admin: { bg: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400', label: 'Admin' },
-    member: { bg: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400', label: 'Member' },
-  };
-
-  const roleGradient = {
-    owner: 'from-yellow-400 to-yellow-500',
-    admin_plus: 'from-purple-400 to-purple-500',
-    admin: 'from-blue-400 to-blue-500',
-    member: 'from-gray-400 to-gray-500',
+    owner: { bg: 'bg-transparent border border-border text-accent-ocre', label: 'Owner' },
+    admin_plus: { bg: 'bg-transparent border border-border text-accent-blue', label: 'Admin+' },
+    admin: { bg: 'bg-transparent border border-border text-accent-sage', label: 'Admin' },
+    member: { bg: 'bg-transparent border border-border text-text-secondary', label: 'Member' },
   };
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">Settings</h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500">{user?.organization?.name}</p>
+        <h1 className="font-serif font-normal text-2xl text-text mb-1">Settings</h1>
+        <p className="text-text-secondary text-xs tracking-[0.15em]">{user?.organization?.name}</p>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 shadow-sm dark:shadow-gray-900/30">
+      <div className="bg-panel border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center text-white text-lg">🔗</div>
+          <div className="w-4 h-4 rotate-45 bg-accent-blue" />
           <div>
-            <h2 className="font-semibold text-gray-800 dark:text-gray-200">Invite Code</h2>
-            <p className="text-xs text-gray-400 dark:text-gray-500">Share this code with people you want to invite</p>
+            <h2 className="font-serif font-normal text-text">Invite Code</h2>
+            <p className="text-text-secondary text-xs">Share this code with people you want to invite</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <code className="text-lg font-mono bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-5 py-3 rounded-xl flex-1 text-center tracking-widest text-primary-700 dark:text-primary-400 font-bold">{inviteCode}</code>
+          <code className="bg-[#1a1f29] border border-border text-text text-xs tracking-widest font-mono px-5 py-3 flex-1 text-center">{inviteCode}</code>
           <button onClick={copyCode}
-            className="px-5 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-medium rounded-xl hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 transition-all active:scale-95">
+            className="bg-text text-page border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-3">
             Copy
           </button>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm dark:shadow-gray-900/30 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-50 dark:border-gray-800 flex items-center justify-between">
+      <div className="bg-panel border border-border">
+        <div className="px-6 py-4 border-b border-border-light flex items-center justify-between">
           <div>
-            <h2 className="font-semibold text-gray-800 dark:text-gray-200">Members ({members.length})</h2>
-            <p className="text-xs text-gray-400 dark:text-gray-500">Manage your team</p>
+            <h2 className="font-serif font-normal text-text">Members ({members.length})</h2>
+            <p className="text-text-secondary text-xs">Manage your team</p>
           </div>
           {isOwner && (
             <button onClick={() => setShowTransfer(true)}
-              className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 px-3 py-1.5 rounded-lg transition">
+              className="text-accent-ocre border border-border text-xs px-3 py-1.5">
               Transfer ownership
             </button>
           )}
         </div>
-        <div className="divide-y divide-gray-50 dark:divide-gray-800">
+        <div className="divide-y divide-border-light">
           {members.map((m) => {
             const badge = roleBadge[m.role] || roleBadge.member;
             return (
-              <div key={m._id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
+              <div key={m._id} className="px-6 py-4 flex items-center justify-between hover:bg-[#1a1f29]">
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 bg-gradient-to-br ${roleGradient[m.role] || roleGradient.member} rounded-xl flex items-center justify-center text-sm font-bold text-white shadow-sm`}>
+                  <div className="w-10 h-10 bg-[#1a1f29] flex items-center justify-center text-sm font-bold text-text-secondary">
                     {m.name[0]?.toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{m.name}</p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">{m.email}</p>
+                    <p className="text-sm font-medium text-text">{m.name}</p>
+                    <p className="text-xs text-text-secondary">{m.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {m.role === 'owner' ? (
-                    <span className={`text-xs px-2.5 py-1 rounded-lg font-medium ${badge.bg}`}>Owner</span>
+                    <span className={`text-xs px-2.5 py-1 font-medium ${badge.bg}`}>Owner</span>
                   ) : canManageRoles ? (
                     <select value={m.role} onChange={(e) => updateRole(m._id, e.target.value)}
-                      className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-medium">
+                      className="bg-transparent border border-border text-text-secondary text-xs px-3 py-1.5 outline-none">
                       <option value="admin_plus">Admin+</option>
                       <option value="admin">Admin</option>
                       <option value="member">Member</option>
                     </select>
                   ) : (
-                    <span className={`text-xs px-2.5 py-1 rounded-lg font-medium ${badge.bg}`}>{badge.label}</span>
+                    <span className={`text-xs px-2.5 py-1 font-medium ${badge.bg}`}>{badge.label}</span>
                   )}
                   {canManageRoles && m.role !== 'owner' && (
                     <button onClick={() => removeMember(m._id)}
-                      className="text-xs text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 px-2 py-1 rounded-lg transition font-medium ml-1">
+                      className="text-accent-terracotta border border-border text-xs tracking-[0.15em] uppercase font-sans px-2 py-1 ml-1">
                       Remove
                     </button>
                   )}
@@ -145,16 +138,14 @@ export default function Settings() {
       </div>
 
       <Modal open={showTransfer} onClose={() => setShowTransfer(false)} title="Transfer Ownership">
-        <div className="px-6 py-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/50 rounded-xl mb-4">
-          <p className="text-sm text-amber-800 dark:text-amber-300">
-            You will become <strong>Admin+</strong>. The selected member will become the new <strong>Owner</strong>.
-          </p>
+        <div className="px-6 py-4 bg-[#1a1f29] border border-border text-accent-ocre text-xs mb-4">
+          You will become <strong className="font-medium">Admin+</strong>. The selected member will become the new <strong className="font-medium">Owner</strong>.
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">New Owner</label>
+            <label className="block text-text-secondary text-xs tracking-[0.22em] uppercase mb-1.5">New Owner</label>
             <select value={transferTarget} onChange={(e) => setTransferTarget(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition">
+              className="w-full px-4 py-3 bg-transparent border border-border text-text text-xs outline-none">
               <option value="">Select a member...</option>
               {members.filter((m) => m.role !== 'owner').map((m) => (
                 <option key={m._id} value={m._id}>{m.name} ({m.email})</option>
@@ -163,9 +154,9 @@ export default function Settings() {
           </div>
           <div className="flex gap-2 justify-end pt-2">
             <button onClick={() => setShowTransfer(false)}
-              className="px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition">Cancel</button>
+              className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-2.5">Cancel</button>
             <button onClick={transferOwnership} disabled={!transferTarget}
-              className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-medium rounded-xl hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-200 dark:shadow-amber-900/30 transition-all active:scale-95 disabled:opacity-50">
+              className="bg-text text-page border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-2.5 disabled:opacity-50">
               Transfer Ownership
             </button>
           </div>

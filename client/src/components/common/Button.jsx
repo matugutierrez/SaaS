@@ -1,10 +1,10 @@
 export default function Button({ children, variant = 'primary', className = '', ...props }) {
-  const base = 'px-4 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed';
+  const base = 'px-4 py-2 text-xs font-sans tracking-[0.15em] uppercase transition disabled:opacity-50 disabled:cursor-not-allowed';
   const variants = {
-    primary: 'bg-primary-600 text-white hover:bg-primary-700',
-    secondary: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-    ghost: 'text-gray-600 hover:bg-gray-100',
+    primary: 'bg-text text-page border border-border',
+    secondary: 'bg-transparent text-text-secondary border border-border',
+    danger: 'text-accent-terracotta border border-border',
+    ghost: 'text-text-secondary hover:text-text',
   };
 
   return (
