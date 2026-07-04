@@ -78,10 +78,10 @@ export default function Sidebar() {
 
   return (
     <aside className={`bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col transition-all duration-300 flex-shrink-0 relative z-[10000] ${expanded ? 'w-64' : 'w-[68px]'}`}>
-      <div className="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">
-        <Link to="/" className={`flex items-center ${expanded ? 'gap-2.5' : 'justify-center flex-1'}`}>
+      <div className={`flex items-center ${expanded ? 'justify-between' : 'justify-center'} px-4 h-14 border-b border-gray-100 dark:border-gray-800`}>
+        <Link to="/" className={`flex items-center gap-2.5 ${expanded ? '' : 'hidden'}`}>
           <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-primary-900/30">F</div>
-          {expanded && <span className="text-base font-bold tracking-tight text-gray-800 dark:text-white">FlowSpace</span>}
+          <span className="text-base font-bold tracking-tight text-gray-800 dark:text-white">FlowSpace</span>
         </Link>
         <button onClick={() => setExpanded(!expanded)} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
           <svg className="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
