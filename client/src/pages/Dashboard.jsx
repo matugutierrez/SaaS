@@ -52,6 +52,7 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
+    api.delete('/tasks/orphans').catch(() => {});
     Promise.all([
       api.get('/tasks/dashboard'),
       api.get('/projects'),

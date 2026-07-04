@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const Project = require('../models/Project');
 const { createAuditLog } = require('../services/auditService');
 const { createNotification } = require('../services/notificationService');
 
@@ -157,37 +158,40 @@ exports.dashboard = async (req, res) => {
     const thirtyAgo = new Date(now - 30 * 86400000);
     const sixtyAgo = new Date(now - 60 * 86400000);
 
-    const total = await Task.countDocuments({ organization: orgId });
+    const validProjects = await Project.find({ organization: orgId }).distinct('_id');
+    const projectFilter = { organization: orgId, project: { $in: validProjects } };
+
+    const total = await Task.countDocuments(projectFilter);
     const byColumn = await Task.aggregate([
-      { $match: { organization: orgId } },
+      { $match: projectFilter },
       { $group: { _id: '$columnName', count: { $sum: 1 } } },
     ]);
     const overdue = await Task.countDocuments({
-      organization: orgId,
+      ...projectFilter,
       dueDate: { $lt: now },
       columnName: { $ne: 'Done' },
     });
     const assignedToMe = await Task.countDocuments({
-      organization: orgId,
+      ...projectFilter,
       assignee: req.user._id,
       columnName: { $ne: 'Done' },
     });
-    const recent = await Task.find({ organization: orgId })
+    const recent = await Task.find(projectFilter)
       .populate('assignee', 'name')
       .sort({ updatedAt: -1 })
       .limit(10);
 
-    const totalThisPeriod = await Task.countDocuments({ organization: orgId, createdAt: { $gte: thirtyAgo } });
-    const totalPrevPeriod = await Task.countDocuments({ organization: orgId, createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+    const totalThisPeriod = await Task.countDocuments({ ...projectFilter, createdAt: { $gte: thirtyAgo } });
+    const totalPrevPeriod = await Task.countDocuments({ ...projectFilter, createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
 
-    const inProgressThisPeriod = await Task.countDocuments({ organization: orgId, columnName: 'In Progress', createdAt: { $gte: thirtyAgo } });
-    const inProgressPrevPeriod = await Task.countDocuments({ organization: orgId, columnName: 'In Progress', createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+    const inProgressThisPeriod = await Task.countDocuments({ ...projectFilter, columnName: 'In Progress', createdAt: { $gte: thirtyAgo } });
+    const inProgressPrevPeriod = await Task.countDocuments({ ...projectFilter, columnName: 'In Progress', createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
 
-    const completedThisPeriod = await Task.countDocuments({ organization: orgId, columnName: 'Done', updatedAt: { $gte: thirtyAgo } });
-    const completedPrevPeriod = await Task.countDocuments({ organization: orgId, columnName: 'Done', updatedAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+    const completedThisPeriod = await Task.countDocuments({ ...projectFilter, columnName: 'Done', updatedAt: { $gte: thirtyAgo } });
+    const completedPrevPeriod = await Task.countDocuments({ ...projectFilter, columnName: 'Done', updatedAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
 
-    const overdueThisPeriod = await Task.countDocuments({ organization: orgId, dueDate: { $lt: now }, columnName: { $ne: 'Done' }, createdAt: { $gte: thirtyAgo } });
-    const overduePrevPeriod = await Task.countDocuments({ organization: orgId, dueDate: { $lt: now }, columnName: { $ne: 'Done' }, createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
+    const overdueThisPeriod = await Task.countDocuments({ ...projectFilter, dueDate: { $lt: now }, columnName: { $ne: 'Done' }, createdAt: { $gte: thirtyAgo } });
+    const overduePrevPeriod = await Task.countDocuments({ ...projectFilter, dueDate: { $lt: now }, columnName: { $ne: 'Done' }, createdAt: { $gte: sixtyAgo, $lt: thirtyAgo } });
 
     res.json({
       total, byColumn, overdue, assignedToMe, recent,
@@ -198,6 +202,17 @@ exports.dashboard = async (req, res) => {
         overdue: { current: overdueThisPeriod, previous: overduePrevPeriod },
       },
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.cleanupOrphans = async (req, res) => {
+  try {
+    const orgId = req.organization._id;
+    const validProjects = await Project.find({ organization: orgId }).distinct('_id');
+    const result = await Task.deleteMany({ organization: orgId, project: { $nin: validProjects } });
+    res.json({ deleted: result.deletedCount });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

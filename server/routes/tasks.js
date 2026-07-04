@@ -5,6 +5,7 @@ const ctrl = require('../controllers/taskController');
 
 router.use(auth);
 
+router.delete('/orphans', rbacAny('delete'), ctrl.cleanupOrphans);
 router.get('/dashboard', ctrl.dashboard);
 router.get('/', ctrl.list);
 router.get('/:id', ctrl.getOne);
