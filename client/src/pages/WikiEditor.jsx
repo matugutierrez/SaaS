@@ -50,7 +50,7 @@ export default function WikiEditor() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="flex items-center gap-3 mb-5">
+      <div className="flex items-center gap-3 mb-5 min-w-0">
         <Link to={`/projects/${projectId}/wiki`}
           className="text-text-secondary hover:text-text p-1.5 transition text-sm">&larr;</Link>
         <h1 className="font-serif font-normal text-text">{docId ? 'Edit Page' : 'New Page'}</h1>

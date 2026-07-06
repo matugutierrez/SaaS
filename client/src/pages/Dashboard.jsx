@@ -165,13 +165,13 @@ export default function Dashboard() {
 
       {data && (
         <>
-          <div className="flex bg-panel border border-border">
+          <div className="grid grid-cols-2 md:flex bg-panel border border-border">
             {statCards.map((card, i) => {
               const val = getStatValue(card.key);
               const trend = calcTrend(card.key);
               const color = accentColorMap[card.accent];
               return (
-                <div key={card.key} className={`flex-1 px-6 py-5 ${i < 3 ? 'border-r border-border-light' : ''}`}>
+                <div key={card.key} className={`flex-1 px-4 md:px-6 py-4 md:py-5 ${i < 3 ? 'border-r border-border-light max-md:border-r-0' : ''} ${i < 2 ? 'max-md:border-b max-md:border-border-light' : ''}`}>
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rotate-45" style={{ backgroundColor: color }} />
@@ -188,8 +188,8 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-panel border border-border">
-                <div className="p-6">
-                  <h3 className="font-serif font-normal text-text text-lg mb-4">Tasks by Status</h3>
+                <div className="p-4 md:p-6">
+                  <h3 className="font-serif font-normal text-text text-base md:text-lg mb-3 md:mb-4">Tasks by Status</h3>
                   <div className="space-y-3">
                     {data.byColumn?.sort((a, b) => {
                       const order = ['Backlog', 'To Do', 'In Progress', 'Review', 'Testing', 'Done', 'Archived'];
@@ -214,7 +214,7 @@ export default function Dashboard() {
               </div>
 
               <div className="bg-panel border border-border">
-                <div className="px-6 py-4 border-b border-border-light flex items-center justify-between">
+                <div className="px-4 md:px-6 py-3 md:py-4 border-b border-border-light flex flex-wrap items-center justify-between gap-2">
                   <h3 className="font-serif font-normal text-text">Draft History</h3>
                   <div className="flex items-center gap-3">
                     {data.recent?.some(t => !clearedIds.has(t._id)) && (
@@ -245,7 +245,7 @@ export default function Dashboard() {
                       : null;
                     return (
                       <Link key={task._id} to={`/tasks/${task._id}`}
-                        className="group flex gap-3 px-6 py-4 transition">
+                        className="group flex gap-3 px-4 md:px-6 py-3 md:py-4 transition">
                         <div className="w-2 h-2 rotate-45 mt-1.5 shrink-0" style={{ backgroundColor: colors.diamond }} />
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-accent-blue group-hover:underline truncate">{task.title}</p>
@@ -268,8 +268,8 @@ export default function Dashboard() {
 
             <div className="space-y-6">
               <div className="bg-panel border border-border">
-                <div className="p-6">
-                  <h3 className="font-serif font-normal text-text text-lg mb-4">My Tasks</h3>
+                <div className="p-4 md:p-6">
+                  <h3 className="font-serif font-normal text-text text-base md:text-lg mb-3 md:mb-4">My Tasks</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between px-4 py-3 border-l-2 border-accent-blue">
                       <span className="text-sm text-accent-blue font-medium">Assigned to me</span>
@@ -288,8 +288,8 @@ export default function Dashboard() {
               </div>
 
               <div className="bg-panel border border-border">
-                <div className="p-6">
-                  <h3 className="font-serif font-normal text-text text-lg mb-4">Projects</h3>
+                <div className="p-4 md:p-6">
+                  <h3 className="font-serif font-normal text-text text-base md:text-lg mb-3 md:mb-4">Projects</h3>
                   <div className="space-y-2">
                     {projects.length === 0 ? (
                       <p className="text-sm text-text-secondary text-center py-4">No projects yet</p>

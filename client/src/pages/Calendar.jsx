@@ -97,18 +97,18 @@ export default function Calendar() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="font-serif font-normal text-text text-2xl">Calendar</h1>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <h1 className="font-serif font-normal text-text text-xl md:text-2xl">Calendar</h1>
+        <div className="flex items-center gap-2 md:gap-3">
           <button onClick={prevMonth} className="bg-transparent text-text-secondary border border-border p-2 hover:text-text">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <span className="font-serif text-text w-48 text-center">{MONTHS[currentMonth]} {currentYear}</span>
+          <span className="font-serif text-text w-36 md:w-48 text-center text-sm md:text-base">{MONTHS[currentMonth]} {currentYear}</span>
           <button onClick={nextMonth} className="bg-transparent text-text-secondary border border-border p-2 hover:text-text">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
           <button onClick={() => { setCurrentMonth(today.getMonth()); setCurrentYear(today.getFullYear()); }}
-            className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-3 py-1.5 hover:text-text">Today</button>
+            className="bg-transparent text-text-secondary border border-border text-[10px] md:text-xs tracking-[0.15em] uppercase font-sans px-2 py-1 md:px-3 md:py-1.5 hover:text-text">Today</button>
         </div>
       </div>
 
@@ -131,7 +131,7 @@ export default function Calendar() {
             return (
               <div key={i}
                 onClick={() => isCurrentMonth && setShowAdd(date.toISOString())}
-                className={`min-h-[120px] border-b border-r border-border-light p-2 cursor-pointer ${
+                className={`min-h-[80px] md:min-h-[120px] border-b border-r border-border-light p-1 md:p-2 cursor-pointer ${
                   isToday ? 'bg-muted' : ''
                 } ${!isCurrentMonth ? '' : ''}`}>
                 <span className={`text-xs ${isToday ? 'text-text' : isCurrentMonth ? 'text-text-secondary' : 'text-text-secondary opacity-30'}`}>

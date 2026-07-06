@@ -47,7 +47,7 @@ export default function Navbar() {
   return (
     <header className="bg-panel border-b border-border px-6 py-2.5 flex items-center justify-between sticky top-0 z-40">
       <div className="flex items-center gap-3">
-        <span className="text-xs text-text-secondary">{user?.organization?.name}</span>
+        <span className="text-xs text-text-secondary truncate max-w-[120px] md:max-w-none">{user?.organization?.name}</span>
       </div>
       <div className="flex items-center gap-1">
         <button onClick={toggle} title={dark ? 'Modo dia' : 'Modo noche'}

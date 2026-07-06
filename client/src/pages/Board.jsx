@@ -222,7 +222,7 @@ export default function Board() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-wrap items-start md:items-center justify-between gap-3 mb-4">
         <div>
           <h1 className="font-serif font-normal text-text text-xl">{board?.name}</h1>
           {project && (
@@ -241,8 +241,8 @@ export default function Board() {
         )}
       </div>
 
-      <div className="flex items-center gap-3 mb-4">
-        <div className="relative flex-1 max-w-xs">
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <div className="relative flex-1 min-w-[200px] max-w-xs">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search tasks..."
             className="w-full pl-9 pr-3 py-2 bg-transparent border border-border text-text text-xs placeholder-text-secondary outline-none" />

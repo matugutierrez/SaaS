@@ -100,7 +100,7 @@ export default function TaskDetail() {
   return (
     <div className="max-w-4xl mx-auto space-y-4">
       <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm dark:shadow-gray-900/30 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-50 dark:border-gray-800 flex items-center justify-between">
+        <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-50 dark:border-gray-800 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-3">
             <button onClick={() => navigate(-1)} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">&larr;</button>
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${(priorityMeta[task.priority] || priorityMeta.medium).color}`}>
@@ -119,12 +119,12 @@ export default function TaskDetail() {
         </div>
 
         {editing ? (
-          <form onSubmit={updateTask} className="p-6 space-y-4">
+          <form onSubmit={updateTask} className="p-4 md:p-6 space-y-4">
             <input value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} required
               className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-lg font-semibold focus:ring-2 focus:ring-primary-500 outline-none transition" />
             <textarea value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} rows={4}
               className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none" />
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Priority</label>
                 <select value={editForm.priority} onChange={(e) => setEditForm({ ...editForm, priority: e.target.value })}
@@ -150,8 +150,8 @@ export default function TaskDetail() {
             </button>
           </form>
         ) : (
-          <div className="p-6">
-            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-3">{task.title}</h1>
+          <div className="p-4 md:p-6">
+            <h1 className="text-lg md:text-xl font-bold text-gray-800 dark:text-gray-100 mb-3">{task.title}</h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap mb-6">{task.description || 'No description'}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -174,7 +174,7 @@ export default function TaskDetail() {
           </div>
         )}
 
-        <div className="px-6 py-4 border-t border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
+        <div className="px-4 md:px-6 py-3 md:py-4 border-t border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Attachments ({task.attachments?.length || 0})</h3>
             {canEdit && (
@@ -207,7 +207,7 @@ export default function TaskDetail() {
         </div>
 
         {activeTab === 'comments' && (
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             <form onSubmit={addComment} className="mb-6">
               <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." rows={2}
                 className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none transition resize-none mb-3" />
@@ -237,7 +237,7 @@ export default function TaskDetail() {
         )}
 
         {activeTab === 'details' && (
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Activity</h3>
             <p className="text-sm text-gray-400 dark:text-gray-500">Created {new Date(task.createdAt).toLocaleString()} · Updated {new Date(task.updatedAt).toLocaleString()}</p>
           </div>

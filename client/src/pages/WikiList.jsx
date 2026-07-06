@@ -27,7 +27,7 @@ export default function WikiList() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h1 className="font-serif font-normal text-xl text-text">Wiki</h1>
           <p className="text-text-secondary text-xs tracking-[0.15em] mt-0.5">{documents.length} pages</p>

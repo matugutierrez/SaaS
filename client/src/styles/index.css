@@ -103,3 +103,16 @@
   font-family: monospace;
 }
 .ProseMirror img { max-width: 100%; }
+
+@media (max-width: 640px) {
+  body { overflow-x: hidden; }
+  .ProseMirror { min-height: 200px; font-size: 14px; }
+}
+
+@media (max-width: 768px) {
+  [data-column-name] { min-width: 260px; }
+}
+
+@media (max-width: 480px) {
+  .calendar-cell { min-height: 60px; }
+}

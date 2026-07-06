@@ -19,7 +19,7 @@ export default function Chat() {
 
   return (
     <div className="flex h-[calc(100vh-9rem)] -m-6">
-      <div className="w-64 bg-panel border-r border-border flex-shrink-0 flex flex-col">
+      <div className="w-48 md:w-64 bg-panel border-r border-border flex-shrink-0 flex flex-col">
         <div className="px-5 py-4 border-b border-border-light">
           <h3 className="font-serif text-text">Channels</h3>
           <p className="text-text-secondary text-xs mt-0.5">{rooms.length} channels</p>

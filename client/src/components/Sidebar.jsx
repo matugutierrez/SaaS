@@ -77,7 +77,7 @@ export default function Sidebar() {
   const canViewAudit = user?.role === 'owner' || user?.role === 'admin_plus';
 
   return (
-    <aside className={`bg-panel border-r border-border flex flex-col transition-all duration-300 flex-shrink-0 relative z-[10000] ${expanded ? 'w-64' : 'w-[68px]'}`}>
+    <aside className={`bg-panel border-r border-border flex flex-col transition-all duration-300 flex-shrink-0 relative z-[10000] ${expanded ? 'w-64' : 'w-[68px]'} max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-[10001] max-md:shadow-2xl max-md:transition-transform`}>
       <div className={`flex items-center ${expanded ? 'justify-between' : 'justify-center'} px-4 h-14 border-b border-border-light`}>
         <Link to="/" className={`flex items-center gap-2.5 ${expanded ? '' : 'hidden'}`}>
           <div className="w-8 h-8 bg-accent-blue rounded-sm flex items-center justify-center text-page text-sm font-sans">F</div>

@@ -28,9 +28,9 @@ export default function Reports() {
   return (
     <div>
       <h1 className="font-serif font-normal text-text text-2xl mb-6">Reports</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-panel border border-border p-6">
-          <h3 className="font-serif font-normal text-text mb-4">Task Completion</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        <div className="bg-panel border border-border p-4 md:p-6">
+          <h3 className="font-serif font-normal text-text mb-3 md:mb-4">Task Completion</h3>
           <div className="flex items-end gap-4 mb-4">
             <div className="font-serif italic text-5xl text-text">{total > 0 ? Math.round((done / total) * 100) : 0}%</div>
             <div className="text-text-secondary text-xs tracking-[0.15em] uppercase mb-1">of tasks completed</div>
@@ -54,8 +54,8 @@ export default function Reports() {
           </div>
         </div>
 
-        <div className="bg-panel border border-border p-6">
-          <h3 className="font-serif font-normal text-text mb-4">Tasks by Status</h3>
+        <div className="bg-panel border border-border p-4 md:p-6">
+          <h3 className="font-serif font-normal text-text mb-3 md:mb-4">Tasks by Status</h3>
           <div className="space-y-3">
             {data?.byColumn?.sort((a, b) => {
               const order = ['Backlog', 'To Do', 'In Progress', 'Review', 'Testing', 'Done', 'Archived'];
@@ -80,8 +80,8 @@ export default function Reports() {
           </div>
         </div>
 
-        <div className="bg-panel border border-border p-6">
-          <h3 className="font-serif font-normal text-text mb-4">Priority Distribution</h3>
+        <div className="bg-panel border border-border p-4 md:p-6">
+          <h3 className="font-serif font-normal text-text mb-3 md:mb-4">Priority Distribution</h3>
           <div className="space-y-3">
             {['urgent', 'high', 'medium', 'low'].map(p => {
               const count = data?.byPriority?.find(c => c._id === p)?.count || 0;
@@ -100,8 +100,8 @@ export default function Reports() {
           </div>
         </div>
 
-        <div className="bg-panel border border-border p-6">
-          <h3 className="font-serif font-normal text-text mb-4">Velocity</h3>
+        <div className="bg-panel border border-border p-4 md:p-6">
+          <h3 className="font-serif font-normal text-text mb-3 md:mb-4">Velocity</h3>
           <p className="text-text-secondary text-xs mb-4">Tasks completed in the last 30 days</p>
           <div className="font-serif italic text-5xl text-text mb-2">{done}</div>
           <p className="text-text-secondary text-xs">tasks completed</p>

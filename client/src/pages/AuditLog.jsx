@@ -36,9 +36,9 @@ export default function AuditLog() {
         <p className="text-text-secondary text-xs mt-0.5">Track every change in your organization</p>
       </div>
 
-      <div className="flex gap-3 mb-4">
+      <div className="flex flex-wrap gap-3 mb-4">
         <select value={filter.entity} onChange={(e) => { setFilter({ ...filter, entity: e.target.value }); setPage(1); }}
-          className="bg-transparent border border-border text-text text-xs px-4 py-2.5 outline-none">
+          className="bg-transparent border border-border text-text text-xs px-3 md:px-4 py-2 md:py-2.5 outline-none flex-1 md:flex-none min-w-[120px]">
           <option value="">All entities</option>
           <option value="Task">Task</option>
           <option value="Project">Project</option>
@@ -46,14 +46,14 @@ export default function AuditLog() {
           <option value="Team">Team</option>
         </select>
         <select value={filter.action} onChange={(e) => { setFilter({ ...filter, action: e.target.value }); setPage(1); }}
-          className="bg-transparent border border-border text-text text-xs px-4 py-2.5 outline-none">
+          className="bg-transparent border border-border text-text text-xs px-3 md:px-4 py-2 md:py-2.5 outline-none flex-1 md:flex-none min-w-[120px]">
           <option value="">All actions</option>
           <option value="create">Create</option>
           <option value="update">Update</option>
           <option value="delete">Delete</option>
           <option value="move">Move</option>
         </select>
-        <span className="text-text-secondary text-xs self-center ml-auto">{totalPages > 0 && `Page ${page} of ${totalPages}`}</span>
+        <span className="text-text-secondary text-xs self-center ml-auto w-full md:w-auto text-right">{totalPages > 0 && `Page ${page} of ${totalPages}`}</span>
       </div>
 
       <div className="bg-panel border border-border">
@@ -75,7 +75,7 @@ export default function AuditLog() {
               {logs.map((log) => {
                 const meta = actionMeta[log.action] || { color: 'text-text-secondary', label: log.action };
                 return (
-                  <div key={log._id} className="px-6 py-4 flex items-center gap-4 text-sm hover:bg-muted">
+                  <div key={log._id} className="px-4 md:px-6 py-3 md:py-4 flex items-center gap-3 md:gap-4 text-sm hover:bg-muted">
                     <div className="w-9 h-9 bg-muted flex items-center justify-center text-sm font-medium text-text-secondary flex-shrink-0">
                       {log.actor?.name?.[0]?.toUpperCase() || '?'}
                     </div>
@@ -99,19 +99,19 @@ export default function AuditLog() {
               })}
             </div>
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-3 px-6 py-4 border-t border-border-light">
+              <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 px-4 md:px-6 py-3 md:py-4 border-t border-border-light">
                 <button disabled={page <= 1} onClick={() => setPage(page - 1)}
-                  className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-4 py-2 disabled:opacity-50">Previous</button>
+                  className="bg-transparent text-text-secondary border border-border text-[10px] md:text-xs tracking-[0.15em] uppercase font-sans px-3 md:px-4 py-1.5 md:py-2 disabled:opacity-50">Previous</button>
                 <div className="flex gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                     <button key={p} onClick={() => setPage(p)}
-                      className={`w-8 h-8 text-xs font-medium ${p === page ? 'bg-text text-page' : 'text-text-secondary hover:bg-muted'}`}>
+                      className={`w-7 h-7 md:w-8 md:h-8 text-[11px] md:text-xs font-medium ${p === page ? 'bg-text text-page' : 'text-text-secondary hover:bg-muted'}`}>
                       {p}
                     </button>
                   ))}
                 </div>
                 <button disabled={page >= totalPages} onClick={() => setPage(page + 1)}
-                  className="bg-transparent text-text-secondary border border-border text-xs tracking-[0.15em] uppercase font-sans px-4 py-2 disabled:opacity-50">Next</button>
+                  className="bg-transparent text-text-secondary border border-border text-[10px] md:text-xs tracking-[0.15em] uppercase font-sans px-3 md:px-4 py-1.5 md:py-2 disabled:opacity-50">Next</button>
               </div>
             )}
           </>

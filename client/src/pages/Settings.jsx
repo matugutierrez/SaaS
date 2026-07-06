@@ -61,31 +61,31 @@ export default function Settings() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-4 md:space-y-6">
       <div>
         <h1 className="font-serif font-normal text-2xl text-text mb-1">Settings</h1>
         <p className="text-text-secondary text-xs tracking-[0.15em]">{user?.organization?.name}</p>
       </div>
 
-      <div className="bg-panel border border-border p-6">
-        <div className="flex items-center gap-3 mb-4">
+      <div className="bg-panel border border-border p-4 md:p-6">
+        <div className="flex items-center gap-3 mb-3 md:mb-4">
           <div className="w-4 h-4 rotate-45 bg-accent-blue" />
           <div>
             <h2 className="font-serif font-normal text-text">Invite Code</h2>
             <p className="text-text-secondary text-xs">Share this code with people you want to invite</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <code className="bg-muted border border-border text-text text-xs tracking-widest font-mono px-5 py-3 flex-1 text-center">{inviteCode}</code>
+        <div className="flex items-center gap-2 md:gap-3">
+          <code className="bg-muted border border-border text-text text-[10px] md:text-xs tracking-widest font-mono px-3 md:px-5 py-2 md:py-3 flex-1 text-center truncate">{inviteCode}</code>
           <button onClick={copyCode}
-            className="bg-text text-page border border-border text-xs tracking-[0.15em] uppercase font-sans px-5 py-3">
+            className="bg-text text-page border border-border text-[10px] md:text-xs tracking-[0.15em] uppercase font-sans px-3 md:px-5 py-2 md:py-3">
             Copy
           </button>
         </div>
       </div>
 
       <div className="bg-panel border border-border">
-        <div className="px-6 py-4 border-b border-border-light flex items-center justify-between">
+        <div className="px-4 md:px-6 py-3 md:py-4 border-b border-border-light flex flex-wrap items-center justify-between gap-2">
           <div>
             <h2 className="font-serif font-normal text-text">Members ({members.length})</h2>
             <p className="text-text-secondary text-xs">Manage your team</p>
@@ -101,7 +101,7 @@ export default function Settings() {
           {members.map((m) => {
             const badge = roleBadge[m.role] || roleBadge.member;
             return (
-              <div key={m._id} className="px-6 py-4 flex items-center justify-between hover:bg-muted">
+              <div key={m._id} className="px-4 md:px-6 py-3 md:py-4 flex flex-wrap items-center justify-between gap-2 hover:bg-muted">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-muted flex items-center justify-center text-sm font-bold text-text-secondary">
                     {m.name[0]?.toUpperCase()}
